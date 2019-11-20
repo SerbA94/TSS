@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+    <meta charset="utf-8" />
+       	<meta name="viewport" content="width=device-width, initial-scale=1" />
+       	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}"/>    
+       	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>    
+        <title>User profile</title>
+    </head>
+    <body>
+    
+    <nav class="navbar navbar-expand-md sticky-top ">
+			<a class="navbar-brand" href="/">Mama Store</a>
+			<div class="navbar-collapse">
+				<ul class="navbar-nav mr-4">
+					<li class="nav-item">
+						<a class="nav-link" href="/logout">SignOut</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	<div class="container content-body">
+	<div class= "col-md-9 padding-top" >
+<div class="box shadow-lg">
+<div class="box-header" >
+<h3 class="box-title brand-style">MyProfile</h3>
+</div>
+<div class="box-body">
+
+    <form th:action="@{/update-profile}" th:object="${user}" method="post"  >
+    <div class="box fd-row">
+		<div class="box col-md-6">
+			<div class="box-body">
+		
+		
+			<div>
+				<label for="email">Email</label>
+				<input type="email" th:field="*{email}" placeholder="Email"> 
+				<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+			</div>
+			<div>
+				<label for="firstName">First Name</label>
+				<input type="text" th:field="*{firstName}" placeholder="First Name"> 
+				<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+			</div>
+			<div>
+				<label for="lastName">Last Name</label>
+				<input type="text" th:field="*{lastName}" placeholder="Last Name"> 
+				<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+			</div>
+			<div>
+				<label for="middleName">Middle Name</label>
+				<input type="text" th:field="*{middleName}" placeholder="Middle Name"> 
+				<span th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}"></span>
+			</div>
+			<div>
+				<label for="phoneNumber">Phone Number</label>
+				<input type="number" th:field="*{phoneNumber}" placeholder="Phone Number"> 
+				<span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+			</div>
+				<input type="hidden" th:field="*{password}" value="user.password"> 
+				<input type="hidden" th:field="*{username}" value="user.username">
+				<input type="hidden" th:field="*{active}" value="user.active">
+				<input type="hidden" th:field="*{id}" value="user.id">
+				
+		</div>
+		</div>
+		<div class="box col-md-6">
+			<div class="box-body">
+	 		<div>
+				<label for="region">Region</label>
+				<input type="text" th:field="*{region}" placeholder="Region"> 
+				<span th:if="${#fields.hasErrors('region')}" th:errors="*{region}"></span>
+			</div>
+				<div>
+				<label for="district">District</label>
+				<input type="text" th:field="*{district}" placeholder="District"> 
+				<span th:if="${#fields.hasErrors('district')}" th:errors="*{district}"></span>
+			</div>
+				<div>
+				<label for="city">City</label>
+				<input type="text" th:field="*{city}" placeholder="City"> 
+				<span th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
+			</div>
+				<div>
+				<label for="postNumber">Post Number</label>
+				<input type="number" th:field="*{postNumber}" placeholder="Post Number"> 
+				<span th:if="${#fields.hasErrors('postNumber')}" th:errors="*{postNumber}"></span>
+			</div>
+			</div>
+		</div>
+			
+		</div>
+		<div class="container fd-column">
+				<button type="submit" class="btn"><h4>Update my info</h4></button>
+		</div>
+	</form>
+	</div>
+	</div>
+	</div>
+</div>
+	    
+<!-- Footer -->
+	<footer class="footer stiky-bottom">
+        <div class="container">
+        <div class="row">
+        <div class="col-md-12 text-center" style="font-family: cursive">
+        	2019 Mama Store ®: <a href="/" class="footer-brand">Mama Store</a>
+        </div>
+   		</div>
+		</div>
+    </footer>
+<!-- Footer -->
+
+    </body>
+</html>

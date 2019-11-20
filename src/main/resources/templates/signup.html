@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+	<script src="js/jquery.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+	<title>SignUp</title>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md sticky-top ">
+		<a class="navbar-brand" href="/">Mama Store</a>
+	</nav>
+	<div class="container content-body ">
+		<div class="col-md-4 padding-top">
+			<div class="box shadow-lg">
+				<div class="box-header">
+					<h3 class="box-title brand-style">SignUp</h3>
+					<a href="/" class="close">×</a>
+				</div>
+				<div class="box-body">
+					<form th:action="@{/signup}" th:object="${user}" method="post" class="needs-validation" novalidate>
+						<div class="form-group">
+							<input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}" placeholder="Mobile phone number"required>
+							<span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+							<div class="valid-feedback">Valid.</div>
+							<div class="invalid-feedback">Please fill out this field.</div>
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Password" required>
+							<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+							<div class="valid-feedback">Valid.</div>
+							<div class="invalid-feedback">Please fill out this field.</div>
+						</div>
+						<div class="container fd-column">
+							<button type="submit" class="btn" tabindex="1"><h4>Submit</h4></button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+	<!-- Footer -->
+	<footer class="footer stiky-bottom">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center" style="font-family: cursive">
+					2019 Mama Store ®: <a href="/" class="footer-brand">Mama Store</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- Footer -->
+
+
+
+</body>
+</html>

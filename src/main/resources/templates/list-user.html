@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="utf-8" />
+       	<meta name="viewport" content="width=device-width, initial-scale=1" />
+       	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}"/>    
+       	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>    
+<title>User list</title>
+</head>
+<body>
+
+
+		<nav class="navbar navbar-expand-md sticky-top ">
+			<a class="navbar-brand" href="/">Mama Store</a>
+			
+			
+			
+		
+			<div class="navbar-collapse ">
+				<ul class="navbar-nav mr-4">
+					<li class="nav-item">
+						<a class="nav-link" href="/logout">SignOut</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+				
+	<div class="container content-body">
+	<table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>User name</th>
+        <th>Phone number</th>
+         <th></th>
+          <th></th>
+      </tr>
+    </thead>
+    
+    <tbody>
+    <tr th:if="${users.empty}"><td colspan="2">No Users Available</td></tr>
+			<tr th:each="user : ${users}">
+				<td><span th:text="${user.username}"> User name </span></td>
+				<td><span th:text="${user.phoneNumber}"> Phone number </span></td>
+				<td><a th:href="@{/edit/{id}(id=${user.id})}">edit</a></td>
+				<td><a th:href="@{/delete/{id}(id=${user.id})}">delete</a></td>
+			</tr>
+    </tbody>
+  </table>
+  </div>
+  
+  
+  	<!-- Footer -->
+	<footer class="footer stiky-bottom">
+        <div class="container">
+        <div class="row">
+        <div class="col-md-12 text-center" style="font-family: cursive">
+        	2019 Mama Store ®: <a href="/" class="footer-brand">Mama Store</a>
+        </div>
+   		</div>
+		</div>
+    </footer>
+<!-- Footer -->
+
+</body>
+</html>
+
+
+
+
+
+
