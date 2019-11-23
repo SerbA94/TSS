@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,6 +43,7 @@ public class UserController {
 	@PreAuthorize("isAnonymous()")
 	@PostMapping("/signup")
 	public String addUser(@Valid User user, BindingResult result, Model model) {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();	
 		if (result.hasErrors()) {
 			return "signup";
 		}
@@ -54,6 +56,7 @@ public class UserController {
 			result.addError(existError);
 			return "signup";
 		}
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 		return "redirect:/login";
 	}

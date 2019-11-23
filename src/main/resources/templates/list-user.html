@@ -33,8 +33,9 @@
       <tr>
         <th>User name</th>
         <th>Phone number</th>
-         <th></th>
+         <th>Role</th>
           <th></th>
+           <th></th>
       </tr>
     </thead>
     
@@ -43,6 +44,7 @@
 			<tr th:each="user : ${users}">
 				<td><span th:text="${user.username}"> User name </span></td>
 				<td><span th:text="${user.phoneNumber}"> Phone number </span></td>
+				<td><span th:text="${user.roles}"> Role </span></td>
 				<td><a th:href="@{/edit/{id}(id=${user.id})}">edit</a></td>
 				<td><a th:href="@{/delete/{id}(id=${user.id})}">delete</a></td>
 			</tr>
