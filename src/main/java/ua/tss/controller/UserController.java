@@ -97,7 +97,7 @@ public class UserController {
 	}
 
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasAuthority('CUSTOMER')")
 	@GetMapping("/profile")
 	public String profile(Model model) {
 		Object principal = getCurrentAuthentication().getPrincipal();
@@ -112,7 +112,7 @@ public class UserController {
 			return "redirect:/";
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasAuthority('CUSTOMER')")
 	@PostMapping("/update-profile")
 	public String updateProfile(@Valid User user, BindingResult result, Model model) {
 		if (result.hasErrors()) {

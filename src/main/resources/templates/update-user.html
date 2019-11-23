@@ -24,9 +24,7 @@
   		</button>
 		<div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<ul class="navbar-nav mr-4">
-				<li sec:authorize="isAuthenticated()" class="nav-item">
-					<a class="nav-link " href="/profile">[[${#httpServletRequest.remoteUser}]]</a>
-				</li>
+			
 				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
 					<a class="nav-link " href="/userList">User list</a>
 				</li>
@@ -43,9 +41,19 @@
 		</div>
 	</nav>
 	<br>
-	<div class="content-body" >
+		<div class="container content-body">
+	<div class= "col-md-9 padding-top" >
+<div class="box shadow-lg">
+<div class="box-header" >
+<h3 class="box-title brand-style">Customer profile</h3>
+</div>
+<div class="box-body">
 	<form action="#" th:action="@{/update/{id}(id=${user.id})}" th:object="${user}" method="post">
-		<div class="row">
+		<div class="box fd-row">
+		<div class="box col-md-6">
+			<div class="box-body">
+		
+		
 			<div>
 				<label for="email">Email</label>
 				<input type="email" th:field="*{email}" placeholder="Email"> 
@@ -68,15 +76,25 @@
 			</div>
 			<div>
 				<label for="phoneNumber">Phone Number</label>
-				<input type="number" th:field="*{phoneNumber}" placeholder="Phone Number"> 
+				<input type="text" th:field="*{phoneNumber}" placeholder="Phone Number"> 
 				<span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+			</div>
+			<div>
+				<b>User role</b><br>
+				<select th:field="*{roles}">
+  					<option value="CUSTOMER">CUSTOMER</option>
+  					<option value="ADMIN">ADMIN</option>
+				</select>
 			</div>
 				<input type="hidden" th:field="*{password}" value="user.password"> 
 				<input type="hidden" th:field="*{username}" value="user.username">
 				<input type="hidden" th:field="*{active}" value="user.active">
+				<input type="hidden" th:field="*{id}" value="user.id">
+				
 		</div>
-		<div>Delivery Address</div>
-		 <div class="row">
+		</div>
+		<div class="box col-md-6">
+			<div class="box-body">
 	 		<div>
 				<label for="region">Region</label>
 				<input type="text" th:field="*{region}" placeholder="Region"> 
@@ -98,12 +116,17 @@
 				<span th:if="${#fields.hasErrors('postNumber')}" th:errors="*{postNumber}"></span>
 			</div>
 			</div>
-		
-			<div>
-			<input type="submit" value="Update User">
+		</div>
+			
+		</div>
+		<div class="container fd-column">
+				<button type="submit" class="btn"><h4>Update customer info</h4></button>
 		</div>
 	</form>
 	</div>
+	</div>
+	</div>
+</div>
 	
 		<!-- Footer -->
 	<footer class="footer stiky-bottom">

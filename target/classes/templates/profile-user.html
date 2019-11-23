@@ -56,7 +56,7 @@
 			</div>
 			<div>
 				<label for="phoneNumber">Phone Number</label>
-				<input type="number" th:field="*{phoneNumber}" placeholder="Phone Number"> 
+				<input type="text" th:field="*{phoneNumber}" placeholder="Phone Number"> 
 				<span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
 			</div>
 				<input type="hidden" th:field="*{password}" value="user.password"> 
