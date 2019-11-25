@@ -35,11 +35,21 @@
   		</button>
 		<div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<ul class="navbar-nav mr-4">
+			<li sec:authorize="isAuthenticated()" class="nav-item" >
+					<a class="nav-link" href="/image/">image</a>
+				</li>
+			
+			
+			
+			
 				<li sec:authorize="hasAuthority('CUSTOMER')" class="nav-item">
 					<a class="nav-link " href="/profile">[[${#httpServletRequest.remoteUser}]]</a>
 				</li>
 					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 					<a class="nav-link " href="/#">[[${#httpServletRequest.remoteUser}]]</a>
+				</li>
+				<li sec:authorize="hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')" class="nav-item">
+					<a class="nav-link " href="/product/list">Product list</a>
 				</li>
 				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 					<a class="nav-link " href="/userList">User list</a>

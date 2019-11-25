@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="utf-8" />
+       	<meta name="viewport" content="width=device-width, initial-scale=1" />
+       	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}"/>    
+       	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>    
+<title>Product list</title>
+</head>
+<body>
+
+
+		<nav class="navbar navbar-expand-md sticky-top ">
+			<a class="navbar-brand" href="/">Mama Store</a>
+		
+		
+			<div class="navbar-collapse ">
+				<ul class="navbar-nav mr-4">
+					<li class="nav-item">
+						<a class="nav-link" href="/userList">User list</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/logout">SignOut</a>
+					</li>
+					
+				</ul>
+			</div>
+		</nav>
+		<div>
+		<form th:action="@{/product/create}" th:object="${product}"  method="post">
+						<div class="form-group">
+							<input type="text" class="form-control" th:field="*{name}" placeholder="Product name"required>
+						</div>
+						<div class="form-group">
+							<input type="number" class="form-control" th:field="*{price}" placeholder="price" required>
+						</div>
+						<div>
+							<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>
+						</div>
+					</form>
+		</div>
+		
+				
+	<div class="container content-body">
+	<table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>Product name</th>
+        <th>Product price</th>
+         <th>Description</th>
+          <th></th>
+           <th></th>
+      </tr>
+    </thead>
+    
+    <tbody>
+    <tr th:if="${products.empty}"><td colspan="2">No Products Available</td></tr>
+			<tr th:each="product : ${products}">
+				<td><span th:text="${product.name}"></span></td>
+				<td><span th:text="${product.price}"></span></td>
+				<td><span th:text="${product.description}"></span></td>
+				
+				
+				
+				
+				
+				<!-- 	<td><a th:href="@{/edit/{id}(id=${user.id})}">edit</a></td> 
+				
+								<td><img src="@{/product/{id}(id=${product.id})/image}"></td>
+				-->
+				<td><a th:href="@{/product/delete/{id}(id=${product.id})}">delete</a></td>
+			</tr>
+    </tbody>
+  </table>
+  </div>
+  
+  
+  	<!-- Footer -->
+	<footer class="footer stiky-bottom">
+        <div class="container">
+        <div class="row">
+        <div class="col-md-12 text-center" style="font-family: cursive">
+        	2019 Mama Store ®: <a href="/" class="footer-brand">Mama Store</a>
+        </div>
+   		</div>
+		</div>
+    </footer>
+<!-- Footer -->
+
+</body>
+</html>
+
+
+
+
+
+

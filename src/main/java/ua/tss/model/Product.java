@@ -2,25 +2,28 @@ package ua.tss.model;
 
 import java.io.Serializable;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 
 @Entity
 public class Product implements Serializable{
 	
 	private static final long serialVersionUID = -3025862373715067087L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	private String name;
 	private String description;
 	private Integer stock;
 	private Integer price;
-	@Lob
-	private Byte[] image;
+	
+
+	
 	public Long getId() {
 		return id;
 	}
@@ -51,13 +54,6 @@ public class Product implements Serializable{
 	public void setPrice(Integer price) {
 		this.price = price;
 	}
-	public Byte[] getImage() {
-		return image;
-	}
-	public void setImage(Byte[] image) {
-		this.image = image;
-	}
-	
-	
+
 
 }

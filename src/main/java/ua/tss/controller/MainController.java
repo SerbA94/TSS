@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 	
-
-
 	@GetMapping("/")
 	public String mainPage() {
 		
@@ -30,7 +28,6 @@ public class MainController {
 		return "redirect:/";
 	}
 
-
 	@GetMapping("/logout")
 	public String signOutPage(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -41,8 +38,6 @@ public class MainController {
 		return "redirect:/";
 		
 	}
-	
-
 	
 	private boolean isCurrentAuthenticationAnonymous() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
