@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.tss.model.Image;
+import ua.tss.model.Product;
 import ua.tss.repository.ImageRepository;
 
 @Service
@@ -17,9 +18,16 @@ public class ImageService {
 	private ImageRepository imageRepository;
 	
     public Image storeImage(MultipartFile file) throws IOException {
-    	
+   
         String name = StringUtils.cleanPath(file.getOriginalFilename());	
         Image image = new Image(name, file.getBytes());	
+        return imageRepository.save(image);
+    }
+    
+    public Image storeImage(MultipartFile file,Product product) throws IOException {
+    	
+        String name = StringUtils.cleanPath(file.getOriginalFilename());	
+        Image image = new Image(name, file.getBytes(),product);	
         return imageRepository.save(image);
     }
     

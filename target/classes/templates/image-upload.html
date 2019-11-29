@@ -24,22 +24,29 @@
 
 	<div class="content-body">
 	
-			<form th:action="@{/image/upload}" th:object="${image}"  enctype="multipart/form-data" method="post">
+			<form th:action="@{/image/upprod}" enctype="multipart/form-data" method="post">
 						
 						<div class="form-group">
 							<input type="file" class="form-control" name="file" accept="image/jpeg" required>
 						</div>
+						
+							
+						<div class="form-group">
+							<input type="number" class="form-control" name="id" placeholder="id">
+						</div> 
+					
 						
 						<div>
 							<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>
 						</div>
 					</form>
 					
-					<form th:action="@{/image/upload-multiple}" th:object="${image}"  enctype="multipart/form-data" method="post">
+					<form th:action="@{/image/upload-multiple}" enctype="multipart/form-data" method="post">
 						
 						<div class="form-group">
 							<input type="file" class="form-control" name="files" accept="image/jpeg" multiple required>
 						</div>
+					
 						
 						<div>
 							<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>

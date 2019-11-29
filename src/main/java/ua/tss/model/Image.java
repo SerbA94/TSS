@@ -3,7 +3,6 @@ package ua.tss.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Image implements Serializable {
@@ -28,6 +25,10 @@ public class Image implements Serializable {
 
     @Lob
     private byte[] data;
+    
+    @ManyToOne
+    @JoinColumn(name="product_id")
+    private Product product;
   
     
 	public Image() {}
@@ -38,7 +39,23 @@ public class Image implements Serializable {
 		this.data = data;
 	}
 	
+	public Image(String name, byte[] data,Product product) {
+		this.name = name;
+		this.data = data;
+		this.product = product;
+	}
+	
 
+
+
+	public Product getProduct() {
+		return product;
+	}
+
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 
 
 	public Long getId() {
