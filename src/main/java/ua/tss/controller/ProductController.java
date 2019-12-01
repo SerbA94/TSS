@@ -1,6 +1,7 @@
 package ua.tss.controller;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import ua.tss.repository.ProductRepository;
 
 @Controller
 @RequestMapping("product")
+@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 public class ProductController {
 	
 	private final ProductRepository productRepository;
@@ -28,7 +30,10 @@ public class ProductController {
 		this.productRepository = productRepository;
 	}
 	
-	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
+	@Autowired
+	public ImageController imageController;
+	
+	
 	@GetMapping("/list")
 	public String list(Model model) {
 		model.addAttribute("products", productRepository.findAll());
@@ -36,9 +41,8 @@ public class ProductController {
 		return "product-list";
 	}
 	
-	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	@PostMapping("/create")
-	public String create(Product product, BindingResult result, Model model,@RequestParam("file") MultipartFile file) {
+	public String create(Product product,BindingResult result,Model model,@RequestParam("files") MultipartFile[] files) {
 		if (result.hasErrors()) {
 			model.addAttribute("products", productRepository.findAll());
 			return "product-list";
@@ -50,14 +54,19 @@ public class ProductController {
 			return "product-list";
 		}
 		productRepository.save(product);
+		if(files!=null) {
+			imageController.multipleUpload(files, product.getId());
+		}
 		return "redirect:/product/list";
 	}
 	
-	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	@GetMapping("/delete/{id}")
-	public String delete(@PathVariable("id") long id, Model model) {
+	public String delete(@PathVariable("id") Long id, Model model) {
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
+		if(!product.getImages().isEmpty()&&product.getImages()!=null) {
+	        product.getImages().stream().forEach(image -> imageController.delete(image));
+		}
 		productRepository.delete(product);
 		return "redirect:/product/list";
 	}	

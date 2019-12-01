@@ -35,7 +35,7 @@
   		</button>
 		<div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<ul class="navbar-nav mr-4">
-			<li sec:authorize="isAuthenticated()" class="nav-item" >
+				<li sec:authorize="hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')" class="nav-item">
 					<a class="nav-link" href="/image/">image</a>
 				</li>
 			

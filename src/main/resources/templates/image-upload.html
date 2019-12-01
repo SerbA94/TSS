@@ -24,7 +24,7 @@
 
 	<div class="content-body">
 	
-			<form th:action="@{/image/upprod}" enctype="multipart/form-data" method="post">
+			<form th:action="@{/image/upload}" enctype="multipart/form-data" method="post">
 						
 						<div class="form-group">
 							<input type="file" class="form-control" name="file" accept="image/jpeg" required>
@@ -46,6 +46,10 @@
 						<div class="form-group">
 							<input type="file" class="form-control" name="files" accept="image/jpeg" multiple required>
 						</div>
+						
+						<div class="form-group">
+							<input type="number" class="form-control" name="id" placeholder="id">
+						</div> 
 					
 						
 						<div>
@@ -67,7 +71,7 @@
     <tr th:if="${images.empty}"><td colspan="2">No images Available</td></tr>
 			<tr th:each="image : ${images}">
 				<td><a th:href="@{/image/{id}(id=${image.id})}"><span th:text="${image.name}"></span></a></td>
-				<td><img th:src="@{/image/{id}(id=${image.id})}"></td>
+				<td><img th:src="@{/image/{id}(id=${image.id})}" class="img-list"></td>
 				
 				
 				

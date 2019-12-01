@@ -4,7 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import ua.tss.model.Product;
-import ua.tss.model.User;
 
 
 @Repository

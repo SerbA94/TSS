@@ -31,6 +31,17 @@ div {
     border-bottom: 0!important;
 }
 
+.img-table {
+	height: 60px;
+	width : 80px;
+	
+}
+.img-list {
+	height: 306px;
+	width : 409px;
+	
+}
+
 
 
 
