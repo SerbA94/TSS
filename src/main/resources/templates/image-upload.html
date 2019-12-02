@@ -41,6 +41,7 @@
 									<b>Product</b><br>
 									<select id="id" name="id">
     									<option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+    									<option value="" selected>null</option>
 									</select>
 								</div>
 								<div>
