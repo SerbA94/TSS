@@ -14,60 +14,76 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-		<script src="js/main.js"></script>
+		<script th:src="@{/js/main.js}"></script>
 	</head>
 
 	<body>
-	
 		<nav class="navbar navbar-expand-md sticky-top ">
 			<a class="navbar-brand" href="/">Mama Store</a>
 		</nav>
 
-		<div class="content-body">
+		<div class="container content-body">
+			<div class="col-md-9">
+				<div class="box shadow-lg">
+					<div class="box-header" >
+						<h3 class="box-title brand-style">Image list</h3>
+					</div>
+					<div class="box-body">
+						<div class="box">
+							<div class="box-header" >
+								<h5 class="box-title brand-style">Image upload</h5>
+							</div>
+							<form th:action="@{/image/upload-multiple}" enctype="multipart/form-data" method="post">
+								<div class="form-group">
+									<input type="file" class="form-control" name="files" accept="image/jpeg" multiple required>
+								</div>			
+								<div class="box">
+									<b>Product</b><br>
+									<select id="id" name="id">
+    									<option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+									</select>
+								</div>
+								<div>
+									<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>
+								</div>
+							</form>
+						</div>
 		
-			<form th:action="@{/image/upload-multiple}" enctype="multipart/form-data" method="post">
-				<div class="form-group">
-					<input type="file" class="form-control" name="files" accept="image/jpeg" multiple required>
-				</div>			
-				<div class="form-group">
-					<input type="number" class="form-control" name="id" placeholder="id">
-				</div> 		
-				<div>
-					<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>
-				</div>
-			</form>
-			
-			<div class="container content-body">
-				<table class="tables">
-    				<thead class="thead-light">
-      					<tr>
-        					<th>images</th>
-      					</tr>
-    				</thead>
-    				<tbody >
-    					<tr th:if="${images.empty}"><td colspan="2">No images Available</td></tr>
-						<tr th:each="image : ${images}">
+		
+						<div class="box">
+							<table class="tables">
+    							<thead class="thead-light">
+      								<tr>
+        								<th>images</th>
+      								</tr>
+    							</thead>
+    							<tbody>
+    								<tr th:if="${images.empty}"><td colspan="2">No images Available</td></tr>
+									<tr th:each="image : ${images}">
 							
-							<td class="fd-row">
-								<div>
-									<span th:text="${image.name}"></span>
-								</div>
-								<div>
-									<a th:href="@{/image/{id}(id=${image.id})}">
-										<img th:src="@{/image/{id}(id=${image.id})}"  class="img-list">
-									</a>
-								</div>
-							</td>
+										<td class="fd-row">
+											<div>
+												<span th:text="${image.name}"></span>
+												</div>
+											<div>
+												<a th:href="@{/image/{id}(id=${image.id})}">
+													<img th:src="@{/image/{id}(id=${image.id})}"  class="img-list">
+												</a>
+											</div>
+										</td>
 				
 				<!-- 	<td><a th:href="@{/edit/{id}(id=${user.id})}">edit</a></td> 
 				
 								<td><img src="@{/product/{id}(id=${product.id})/image}"></td>
 				-->
-						</tr>
-    				</tbody>
-  				</table>
+									</tr>
+    							</tbody>
+  							</table>
+						</div>
+  					</div>
+  				</div>
   			</div>
-		</div>
+  		</div>
 		<!-- Footer -->
 		<footer class="footer stiky-bottom">
 			<div class="container">

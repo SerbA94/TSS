@@ -45,6 +45,7 @@ public class ImageController {
 	
 	@GetMapping("/list")
     public String image(Model model) {
+		model.addAttribute("products", productRepository.findAll());
 		model.addAttribute("images", imageRepository.findAll());
 		model.addAttribute("image", new Image());
         return "image-upload";        

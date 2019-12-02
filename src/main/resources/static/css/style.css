@@ -164,6 +164,18 @@ div {
 .jc-center {
 	justify-content: center !important;
 }
+.jc-sa {
+	justify-content: space-around !important;
+}
+
+.ai-sa{
+    align-items: space-around !important;
+
+}
+.ai-center{
+    align-items: center !important;
+
+}
 
 .modal-position{
 	position: relative !important;
