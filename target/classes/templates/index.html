@@ -38,7 +38,7 @@
 			<ul class="navbar-nav mr-4">
 			
 				<li sec:authorize="hasAuthority('CUSTOMER')" class="nav-item">
-					<a class="nav-link " href="/profile">[[${#httpServletRequest.remoteUser}]]</a>
+					<a class="nav-link " href="/user/profile">[[${#httpServletRequest.remoteUser}]]</a>
 				</li>
 					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 					<a class="nav-link " href="/#">[[${#httpServletRequest.remoteUser}]]</a>
@@ -51,7 +51,7 @@
 					<a class="nav-link " href="/product/list">Product list</a>
 				</li>
 				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
-					<a class="nav-link " href="/userList">User list</a>
+					<a class="nav-link " href="/user/list">User list</a>
 				</li>
 				<li sec:authorize="!isAuthenticated()" class="nav-item container jc-start">
 					<!-- <a class="nav-link" href="/login">SignIn</a> -->
@@ -61,7 +61,7 @@
 					<a class="nav-link" href="/logout">SignOut</a>
 				</li>
 				<li sec:authorize="!isAuthenticated()" class="nav-item">
-					<a class="nav-link" href="/signup">SignUp</a>					
+					<a class="nav-link" href="/user/signup">SignUp</a>					
 				</li>
 			</ul>
 		</div>

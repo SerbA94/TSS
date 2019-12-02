@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
 	
 	@GetMapping("/")
-	public String mainPage() {
+	public String index() {
 		
-		return "mainPage";
+		return "index";
 	}
 
 	@GetMapping("/login")
-	public String loginPage() {	
+	public String login() {	
 		if (isCurrentAuthenticationAnonymous()) {
 			return "login";
 		}
@@ -29,19 +29,23 @@ public class MainController {
 	}
 
 	@GetMapping("/logout")
-	public String signOutPage(HttpServletRequest request, HttpServletResponse response) {
+	public String signout(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 			SecurityContextHolder.getContext().setAuthentication(null);
 		}
 		return "redirect:/";
-		
 	}
 	
+	
+	
+	private Authentication getCurrentAuthentication() {
+		return SecurityContextHolder.getContext().getAuthentication();
+	}
+
 	private boolean isCurrentAuthenticationAnonymous() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    return auth.getPrincipal().equals("anonymousUser");
+		return getCurrentAuthentication().getPrincipal().equals("anonymousUser");
 	}
 
 }

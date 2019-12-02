@@ -27,7 +27,7 @@
 					<a href="/" class="close">×</a>
 				</div>
 				<div class="box-body">
-					<form th:action="@{/signup}" th:object="${user}" method="post" class="needs-validation" novalidate>
+					<form th:action="@{/user/signup}" th:object="${user}" method="post" class="needs-validation" novalidate>
 						<div class="form-group">
 							<input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}" placeholder="Mobile phone number"required>
 							<span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
