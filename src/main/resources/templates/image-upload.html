@@ -3,102 +3,81 @@
 	xmlns:th="https://www.thymeleaf.org"
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-<head>
-<title>Image upload</title>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<head>
+		<title>Image upload</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
  	   	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-<script src="js/main.js"></script>
-</head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+		<script src="js/main.js"></script>
+	</head>
 
-<body>
-	<nav class="navbar navbar-expand-md sticky-top ">
-		<a class="navbar-brand" href="/">Mama Store</a>
-	</nav>
-
-	<div class="content-body">
+	<body>
 	
-			<form th:action="@{/image/upload}" enctype="multipart/form-data" method="post">
-						
-						<div class="form-group">
-							<input type="file" class="form-control" name="file" accept="image/jpeg" required>
-						</div>
-						
+		<nav class="navbar navbar-expand-md sticky-top ">
+			<a class="navbar-brand" href="/">Mama Store</a>
+		</nav>
+
+		<div class="content-body">
+		
+			<form th:action="@{/image/upload-multiple}" enctype="multipart/form-data" method="post">
+				<div class="form-group">
+					<input type="file" class="form-control" name="files" accept="image/jpeg" multiple required>
+				</div>			
+				<div class="form-group">
+					<input type="number" class="form-control" name="id" placeholder="id">
+				</div> 		
+				<div>
+					<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>
+				</div>
+			</form>
+			
+			<div class="container content-body">
+				<table class="tables">
+    				<thead class="thead-light">
+      					<tr>
+        					<th>images</th>
+      					</tr>
+    				</thead>
+    				<tbody >
+    					<tr th:if="${images.empty}"><td colspan="2">No images Available</td></tr>
+						<tr th:each="image : ${images}">
 							
-						<div class="form-group">
-							<input type="number" class="form-control" name="id" placeholder="id">
-						</div> 
-					
-						
-						<div>
-							<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>
-						</div>
-					</form>
-					
-					<form th:action="@{/image/upload-multiple}" enctype="multipart/form-data" method="post">
-						
-						<div class="form-group">
-							<input type="file" class="form-control" name="files" accept="image/jpeg" multiple required>
-						</div>
-						
-						<div class="form-group">
-							<input type="number" class="form-control" name="id" placeholder="id">
-						</div> 
-					
-						
-						<div>
-							<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>
-						</div>
-					</form>
-	
-	<div class="container content-body">
-	<table class="table">
-    <thead class="thead-light">
-      <tr>
-        <th>image name</th>
-        <th>image</th>
-   
-      </tr>
-    </thead>
-    
-    <tbody>
-    <tr th:if="${images.empty}"><td colspan="2">No images Available</td></tr>
-			<tr th:each="image : ${images}">
-				<td><a th:href="@{/image/{id}(id=${image.id})}"><span th:text="${image.name}"></span></a></td>
-				<td><img th:src="@{/image/{id}(id=${image.id})}" class="img-list"></td>
-				
-				
-				
-				
-				
+							<td class="fd-row">
+								<div>
+									<span th:text="${image.name}"></span>
+								</div>
+								<div>
+									<a th:href="@{/image/{id}(id=${image.id})}">
+										<img th:src="@{/image/{id}(id=${image.id})}"  class="img-list">
+									</a>
+								</div>
+							</td>
 				
 				<!-- 	<td><a th:href="@{/edit/{id}(id=${user.id})}">edit</a></td> 
 				
 								<td><img src="@{/product/{id}(id=${product.id})/image}"></td>
 				-->
-			</tr>
-    </tbody>
-  </table>
-  </div>
+						</tr>
+    				</tbody>
+  				</table>
+  			</div>
 		</div>
-	
-
-	<!-- Footer -->
-	<footer class="footer stiky-bottom">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 text-center" style="font-family: cursive">
-					2019 Mama Store ®: <a href="/" class="footer-brand">Mama Store</a>
+		<!-- Footer -->
+		<footer class="footer stiky-bottom">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center" style="font-family: cursive">2019 Mama Store ®: 
+						<a href="/" class="footer-brand">Mama Store</a>
+					</div>
 				</div>
 			</div>
-		</div>
-	</footer>
-	<!-- Footer -->
-</body>
+		</footer>
+		<!-- Footer -->
+	</body>
 </html>
