@@ -2,6 +2,9 @@ package ua.tss.controller;
 
 
 
+import java.io.IOException;
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.tss.model.Product;
+import ua.tss.repository.ImageRepository;
 import ua.tss.repository.ProductRepository;
+import ua.tss.service.ImageService;
 
 @Controller
 @RequestMapping("product")
@@ -31,8 +36,10 @@ public class ProductController {
 	}
 	
 	@Autowired
-	public ImageController imageController;
+	private ImageRepository imageRepository;	
 	
+	@Autowired
+    private ImageService imageService;
 	
 	@GetMapping("/list")
 	public String list(Model model) {
@@ -55,7 +62,13 @@ public class ProductController {
 		}
 		productRepository.save(product);
 		if(files!=null) {
-			imageController.multipleUpload(files, product.getId());
+	         Arrays.asList(files).stream().forEach(file -> {
+				try {
+					imageService.storeImage(file,product);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
 		}
 		return "redirect:/product/list";
 	}
@@ -65,7 +78,7 @@ public class ProductController {
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
 		if(!product.getImages().isEmpty()&&product.getImages()!=null) {
-	        product.getImages().stream().forEach(image -> imageController.delete(image));
+	        product.getImages().stream().forEach(image -> imageRepository.delete(image));
 		}
 		productRepository.delete(product);
 		return "redirect:/product/list";

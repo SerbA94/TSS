@@ -43,7 +43,7 @@ public class ImageController {
 		this.imageRepository = imageRepository;
 	}
 	
-	@GetMapping("/")
+	@GetMapping("/list")
     public String image(Model model) {
 		model.addAttribute("images", imageRepository.findAll());
 		model.addAttribute("image", new Image());
@@ -75,13 +75,13 @@ public class ImageController {
 			e.printStackTrace();
 	        return "image-upload";
 		} 
-        return "redirect:/image/";        
+        return "redirect:/image/list";        
     }
 
     @PostMapping("/upload-multiple")
     public String multipleUpload(@RequestParam("files") MultipartFile[] files,@RequestParam("id") Long id) {
          Arrays.asList(files).stream().forEach(file -> upload(file,id));
-         return "redirect:/image/";        
+         return "redirect:/image/list";        
 
     }
     
@@ -99,11 +99,9 @@ public class ImageController {
 		Image image = imageRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid image Id:" + id));
 		imageRepository.delete(image);
-        return "redirect:/image/";        
+        return "redirect:/image/list";        
 	}
 	
-	public void delete(Image image) {		
-		imageRepository.delete(image);
-	}
+
 
 }
