@@ -2,8 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org"
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-<meta charset="utf-8" />
+	<head>
+	
+		<meta charset="utf-8" />
        	<meta name="viewport" content="width=device-width, initial-scale=1" />
        	
        	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -12,107 +13,112 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
        	
        	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>    
-<title>Product list</title>
-</head>
-<body>
+		<title>Product list</title>
+		
+	</head>
+	<body>
 
-
-	<nav class="navbar navbar-expand-md sticky-top ">
-		<a class="navbar-brand" href="/">Mama Store</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-			<div class="navbar-toggler-icon container">
-				<div><span class="icon-bar"></span></div>
-				<div><span class="icon-bar"></span></div>
-				<div><span class="icon-bar"></span></div>
+		<nav class="navbar navbar-expand-md sticky-top">
+			<a class="navbar-brand" href="/">Mama Store</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<div class="navbar-toggler-icon container">
+					<div><span class="icon-bar"></span></div>
+					<div><span class="icon-bar"></span></div>
+					<div><span class="icon-bar"></span></div>
+				</div>
+  			</button>
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav mr-4">
+			
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+						<a class="nav-link " href="/user/list">User list</a>
+					</li>
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+						<a class="nav-link " href="/image/list">Image list</a>
+					</li>
+			
+					<li sec:authorize="!isAuthenticated()" class="nav-item">
+						<a class="nav-link" href="/login">SignIn</a>
+					</li>		
+					<li sec:authorize="isAuthenticated()" class="nav-item" >
+						<a class="nav-link" href="/logout">SignOut</a>
+					</li>
+					<li sec:authorize="!isAuthenticated()" class="nav-item">
+						<a class="nav-link " href="/user/signup">SignUp</a>
+					</li>
+					
+				</ul>
 			</div>
-  		</button>
-		<div class="collapse navbar-collapse" id="collapsibleNavbar">
-			<ul class="navbar-nav mr-4">
-			
-				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
-					<a class="nav-link " href="/user/list">User list</a>
-				</li>
-				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
-					<a class="nav-link " href="/image/list">Image list</a>
-				</li>
-			
-				<li sec:authorize="!isAuthenticated()" class="nav-item">
-					<a class="nav-link" href="/login">SignIn</a>
-				</li>		
-				<li sec:authorize="isAuthenticated()" class="nav-item" >
-					<a class="nav-link" href="/logout">SignOut</a>
-				</li>
-				<li sec:authorize="!isAuthenticated()" class="nav-item">
-					<a class="nav-link " href="/user/signup">SignUp</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
-			<div class="container content-body">
-		
-		<div>
-		<form th:action="@{/product/create}" th:object="${product}" enctype="multipart/form-data" method="post">
-						<div class="form-group">
-							<input type="text" class="form-control" th:field="*{name}" placeholder="Product name"required>
+		</nav>
+		<div class="container content-body">
+			<div class="col-md-9">
+				<div class="box shadow-lg">
+					<div class="box-header" >
+						<h3 class="box-title brand-style">Product list</h3>
+					</div>
+					<div class="box-body">
+					
+						<div class="box">
+							<button type="button" class="box-header btn" data-toggle="collapse" data-target="#box-header">
+								<h5 class="box-title brand-style">Create product</h5>
+							</button>
+							<div id="box-header" class="collapse">
+								<form th:action="@{/product/create}" th:object="${product}" enctype="multipart/form-data" method="post">
+									<div class="form-group">
+										<input type="text" class="form-control" th:field="*{name}" placeholder="Product name"required>
+									</div>
+									<div class="form-group">
+										<input type="number" class="form-control" th:field="*{price}" placeholder="price" required>
+									</div>
+									<div class="form-group">
+										<input type="file" class="form-control" name="files" accept="image/jpeg" multiple>
+									</div>
+									<div>
+										<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>
+									</div>
+								</form>				
+							</div>		
 						</div>
-						<div class="form-group">
-							<input type="number" class="form-control" th:field="*{price}" placeholder="price" required>
+						<div class="box">
+							<div class="box-header" >
+								<h5 class="box-title brand-style">Products</h5>
+							</div>		
+							<table class="table">
+    							<thead class="thead-light">
+      								<tr>
+        								<th>Product name</th>
+        								<th>Product price</th>
+         								<th>Description</th>
+          								<th>Product image</th>
+           								<th></th>
+     								</tr>
+    							</thead>
+    							<tbody>
+    								<tr th:if="${products.empty}"><td colspan="2">No Products Available</td></tr>
+									<tr th:each="product : ${products}">
+										<td><span th:text="${product.name}"></span></td>
+										<td><span th:text="${product.price}"></span></td>
+										<td><span th:text="${product.description}"></span></td>
+										
+										<td>
+											<table>
+												<tbody>	
+													<tr th:each="image : ${product.images}">
+														<td><img th:src="@{/image/{id}(id=${image.id})}" class="img-table"></td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+																
+										<td><a th:href="@{/product/delete/{id}(id=${product.id})}">delete</a></td>
+									</tr>
+						    	</tbody>
+						  	</table>
 						</div>
-			
-						<div class="form-group">
-							<input type="file" class="form-control" name="files" accept="image/jpeg" multiple>
-						</div>
-						
-						<div>
-							<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>
-						</div>
-					</form>
-		</div>
-		
-				
-	<table class="table">
-    <thead class="thead-light">
-      <tr>
-        <th>Product name</th>
-        <th>Product price</th>
-         <th>Description</th>
-          <th></th>
-           <th></th>
-      </tr>
-    </thead>
-    
-    <tbody>
-    <tr th:if="${products.empty}"><td colspan="2">No Products Available</td></tr>
-			<tr th:each="product : ${products}">
-				<td><span th:text="${product.name}"></span></td>
-				<td><span th:text="${product.price}"></span></td>
-				<td><span th:text="${product.description}"></span></td>
-				
-				
-				
-				
-				
-				<!-- 	<td><a th:href="@{/edit/{id}(id=${user.id})}">edit</a></td> 
-				
-								<td><img src="@{/product/{id}(id=${product.id})/image}"></td>
-				-->
-				
-				
-				<td>
-					<table>
-						<tbody>
-							<tr th:each="image : ${product.images}">
-								<td><img th:src="@{/image/{id}(id=${image.id})}" class="img-table"></td>
-							</tr>
-						</tbody>
-					</table>
-				</td>
-				
-				<td><a th:href="@{/product/delete/{id}(id=${product.id})}">delete</a></td>
-			</tr>
-    </tbody>
-  </table>
-  </div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
   
   
   	<!-- Footer -->
