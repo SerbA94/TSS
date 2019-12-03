@@ -39,7 +39,10 @@ div {
 .img-list {
 	width : 100%;
 	background-size: cover;
-	
+}
+
+.img-btn {
+	padding: 0;
 }
 
 
@@ -78,6 +81,32 @@ div {
 	border: none;
 	
 }
+.txt-brand {
+	
+	color: Gray;
+	font-family: cursive;
+	border: none;
+	
+		padding: .375rem .75rem;
+    padding-top: 0.375rem;
+    padding-right: 0.75rem !important;
+    padding-bottom: 0.375rem;
+    padding-left: 0.75rem !important;
+	
+}
+
+.txt {
+	border: none;
+	
+		padding: .375rem .75rem;
+    padding-top: 0.375rem;
+    padding-right: 0.75rem !important;
+    padding-bottom: 0.375rem;
+    padding-left: 0.75rem !important;
+	
+}
+
+
 
 .nav-link{
 	padding: .375rem .75rem;

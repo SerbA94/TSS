@@ -29,28 +29,30 @@
 						<h3 class="box-title brand-style">Image list</h3>
 					</div>
 					<div class="box-body">
+					
 						<div class="box">
-							<div class="box-header" >
-								<h5 class="box-title brand-style">Image upload</h5>
-							</div>
-							<form th:action="@{/image/upload-multiple}" enctype="multipart/form-data" method="post">
-								<div class="form-group">
-									<input type="file" class="form-control" name="files" accept="image/jpeg" multiple required>
-								</div>			
-								<div class="box">
-									<b>Product</b><br>
-									<select id="id" name="id">
-    									<option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
-    									<option value="" selected>null</option>
-									</select>
-								</div>
-								<div>
-									<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>
-								</div>
-							</form>
+							<button type="button" class="box-header btn" data-toggle="collapse" data-target="#box-header">
+									<h5 class="box-title brand-style">Image upload</h5>
+							</button>
+							<div id="box-header" class="collapse">
+								<form th:action="@{/image/upload-multiple}" enctype="multipart/form-data" method="post">
+									<div class="form-group">
+										<input type="file" class="form-control" name="files" accept="image/jpeg" multiple required>
+									</div>			
+									<div class="box">
+										<b>Product</b><br>
+										<select id="id" name="id">
+    										<option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+    										<option value="" selected>null</option>
+										</select>
+									</div>
+									<div>
+										<button type="submit" value="Upload" class="btn" tabindex="1"><h4>Submit</h4></button>
+									</div>
+								</form>					
+							</div>		
 						</div>
-		
-		
+						
 						<div class="box">
 							<div class="box-header" >
 								<h5 class="box-title brand-style">Images</h5>
@@ -61,27 +63,27 @@
 									<tr th:each="image : ${images}">
 										<td class="fd-row">
 											<div class="box">
-												
 												<div>
-												  <button type="button" data-toggle="collapse" th:attr="data-target='#image'+${image.id}">
-												  	<img th:src="@{/image/{id}(id=${image.id})}"  class="img-list">
-												  </button>
-												  <div th:id="'image'+${image.id}" class="collapse">
-									
-													<a th:href="@{/image/update/{id}(id=${image.id})}">update</a>
-													
+													<button type="button" class="img-btn"  data-toggle="collapse" th:attr="data-target='#image'+${image.id}">
+												  		<img th:src="@{/image/{id}(id=${image.id})}" class="img-list">
+												  	</button>
+													<div th:id="'image'+${image.id}" class="collapse">
+														<div class="container fd-row jc-center">
+															<h5 class="txt-brand">Image name: </h5>
+															<h5 class="txt">[[${image.name}]]</h5>
+														</div>
+														<div th:if="${image.product}" class="container fd-row jc-center">
+															<h5 class="txt-brand">Product name: </h5>
+															<h5  class="txt">[[${image.product.name}]]</h5>
+														</div>
+														<div class="container fd-row jc-center">
+															<h5><a th:href="@{/image/update/{id}(id=${image.id})}" class="nav-link">Update</a></h5>
+														</div>
+														
+													</div>
 												</div>
-												
 											</div>
-										</div>
-									</td>
-										
-									
-				
-				<!-- 	<td><a th:href="@{/edit/{id}(id=${user.id})}">edit</a></td> 
-				
-								<td><img src="@{/product/{id}(id=${product.id})/image}"></td>
-				-->
+										</td>
 									</tr>
     							</tbody>
   							</table>
