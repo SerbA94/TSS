@@ -17,22 +17,37 @@
 <body>
 
 
-		<nav class="navbar navbar-expand-md sticky-top ">
-			<a class="navbar-brand" href="/">Mama Store</a>
-		
-		
-			<div class="navbar-collapse ">
-				<ul class="navbar-nav mr-4">
-					<li class="nav-item">
-						<a class="nav-link" href="/user/list">User list</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/logout">SignOut</a>
-					</li>
-					
-				</ul>
+	<nav class="navbar navbar-expand-md sticky-top ">
+		<a class="navbar-brand" href="/">Mama Store</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<div class="navbar-toggler-icon container">
+				<div><span class="icon-bar"></span></div>
+				<div><span class="icon-bar"></span></div>
+				<div><span class="icon-bar"></span></div>
 			</div>
-		</nav>
+  		</button>
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav mr-4">
+			
+				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<a class="nav-link " href="/user/list">User list</a>
+				</li>
+				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<a class="nav-link " href="/image/list">Image list</a>
+				</li>
+			
+				<li sec:authorize="!isAuthenticated()" class="nav-item">
+					<a class="nav-link" href="/login">SignIn</a>
+				</li>		
+				<li sec:authorize="isAuthenticated()" class="nav-item" >
+					<a class="nav-link" href="/logout">SignOut</a>
+				</li>
+				<li sec:authorize="!isAuthenticated()" class="nav-item">
+					<a class="nav-link " href="/user/signup">SignUp</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
 			<div class="container content-body">
 		
 		<div>

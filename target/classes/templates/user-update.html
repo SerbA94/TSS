@@ -17,7 +17,7 @@
 <title>Update user</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-md sticky-top ">
+<nav class="navbar navbar-expand-md sticky-top ">
 		<a class="navbar-brand" href="/">Mama Store</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 			<div class="navbar-toggler-icon container">
@@ -31,6 +31,12 @@
 			
 				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
 					<a class="nav-link " href="/user/list">User list</a>
+				</li>
+				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<a class="nav-link " href="/image/list">Image list</a>
+				</li>
+				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<a class="nav-link " href="/product/list">Product list</a>
 				</li>
 				<li sec:authorize="!isAuthenticated()" class="nav-item">
 					<a class="nav-link" href="/login">SignIn</a>
