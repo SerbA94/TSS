@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org"
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-<meta charset="utf-8" />
+	<head>
+		<meta charset="utf-8" />
        	<meta name="viewport" content="width=device-width, initial-scale=1" />
        	
        	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -12,82 +12,88 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
               	
        	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>    
-<title>User list</title>
-</head>
-<body>
-
-
-	<nav class="navbar navbar-expand-md sticky-top ">
-		<a class="navbar-brand" href="/">Mama Store</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-			<div class="navbar-toggler-icon container">
-				<div><span class="icon-bar"></span></div>
-				<div><span class="icon-bar"></span></div>
-				<div><span class="icon-bar"></span></div>
-			</div>
-  		</button>
-		<div class="collapse navbar-collapse" id="collapsibleNavbar">
-			<ul class="navbar-nav mr-4">
-			
-			
-				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
-					<a class="nav-link " href="/image/list">Image list</a>
-				</li>
-				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
-					<a class="nav-link " href="/product/list">Product list</a>
-				</li>
-				<li sec:authorize="!isAuthenticated()" class="nav-item">
-					<a class="nav-link" href="/login">SignIn</a>
-				</li>		
-				<li sec:authorize="isAuthenticated()" class="nav-item" >
-					<a class="nav-link" href="/logout">SignOut</a>
-				</li>
-				<li sec:authorize="!isAuthenticated()" class="nav-item">
-					<a class="nav-link " href="/user/signup">SignUp</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
+		<title>User list</title>
+	</head>
+	<body>
+	
+		<nav class="navbar navbar-expand-md sticky-top ">
+			<a class="navbar-brand" href="/">Mama Store</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<div class="navbar-toggler-icon container">
+					<div><span class="icon-bar"></span></div>
+					<div><span class="icon-bar"></span></div>
+					<div><span class="icon-bar"></span></div>
+				</div>
+	  		</button>
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav mr-4">
 				
-	<div class="container content-body">
-	<table class="table">
-    <thead class="thead-light">
-      <tr>
-        <th>User name</th>
-        <th>Phone number</th>
-         <th>Role</th>
-          <th></th>
-           <th></th>
-      </tr>
-    </thead>
-    
-    <tbody>
-    <tr th:if="${users.empty}"><td colspan="2">No Users Available</td></tr>
-			<tr th:each="user : ${users}">
-				<td><span th:text="${user.username}"> User name </span></td>
-				<td><span th:text="${user.phoneNumber}"> Phone number </span></td>
-				<td><span th:text="${user.roles}"> Role </span></td>
-				<td><a th:href="@{/user/edit/{id}(id=${user.id})}">edit</a></td>
-				<td><a th:href="@{/user/delete/{id}(id=${user.id})}">delete</a></td>
-			</tr>
-    </tbody>
-  </table>
-  </div>
-  
-  
-  	<!-- Footer -->
-	<footer class="footer stiky-bottom">
-        <div class="container">
-        <div class="row">
-        <div class="col-md-12 text-center" style="font-family: cursive">
-        	2019 Mama Store ®: <a href="/" class="footer-brand">Mama Store</a>
-        </div>
-   		</div>
-		</div>
-    </footer>
-<!-- Footer -->
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+						<a class="nav-link " href="/image/list">Image list</a>
+					</li>
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+						<a class="nav-link " href="/product/list">Product list</a>
+					</li>
+					<li sec:authorize="!isAuthenticated()" class="nav-item">
+						<a class="nav-link" href="/login">SignIn</a>
+					</li>		
+					<li sec:authorize="isAuthenticated()" class="nav-item" >
+						<a class="nav-link" href="/logout">SignOut</a>
+					</li>
+					<li sec:authorize="!isAuthenticated()" class="nav-item">
+						<a class="nav-link " href="/user/signup">SignUp</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	
+		<div class="container content-body">
+			<div class="col-md-9">
+				<div class="box shadow-lg">
+					<div class="box-header" >
+						<h3 class="box-title brand-style">User list</h3>
+					</div>
+					<div class="box-body">
+						<div class="box">
+							<table class="table">
+								<thead class="thead-light">
+							    	<tr>
+							        	<th>User name</th>
+							        	<th>Phone number</th>
+							         	<th>Role</th>
+							          	<th></th>
+							           	<th></th>
+							      	</tr>
+							    </thead>
+							    <tbody>
+							    	<tr th:if="${users.empty}"><td colspan="2">No Users Available</td></tr>
+									<tr th:each="user : ${users}">
+										<td><span th:text="${user.username}"> User name </span></td>
+										<td><span th:text="${user.phoneNumber}"> Phone number </span></td>
+										<td><span th:text="${user.roles}"> Role </span></td>
+										<td><a th:href="@{/user/edit/{id}(id=${user.id})}">edit</a></td>
+										<td><a th:href="@{/user/delete/{id}(id=${user.id})}">delete</a></td>
+									</tr>
+							    </tbody>
+							</table>
+						</div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  		<!-- Footer -->
+		<footer class="footer stiky-bottom">
+        	<div class="container">
+        		<div class="row">
+        			<div class="col-md-12 text-center" style="font-family: cursive">2019 Mama Store ®: 
+        				<a href="/" class="footer-brand">Mama Store</a>
+        			</div>
+   				</div>
+			</div>
+    	</footer>
+		<!-- Footer -->
 
-</body>
+	</body>
 </html>
 
 
