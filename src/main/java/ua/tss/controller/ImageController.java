@@ -48,19 +48,45 @@ public class ImageController {
 		model.addAttribute("products", productRepository.findAll());
 		model.addAttribute("images", imageRepository.findAll());
 		model.addAttribute("image", new Image());
-        return "image-upload";        
+        return "image-list";        
     }
 	
-	
-	// add product list realization in view for id choosing 
 	@GetMapping("/product/{id}")
     public String productImages(@PathVariable("id") Long id,Model model) {
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
 		model.addAttribute("images", product.getImages());
 		model.addAttribute("image", new Image());
-        return "image-upload";        
+        return "image-list";        
     }
+	
+	@GetMapping("/update/{id}")
+    public String updateForm(@PathVariable("id") Long id,Model model) {
+		Image image = imageRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid image Id:" + id));
+		model.addAttribute("products", productRepository.findAll());
+		model.addAttribute("image", image);
+        return "image-update";        
+    }
+	
+	@PostMapping("/update")
+    public String update(Image image,@RequestParam("productId") Long id) {
+		Image imageFromDB = imageRepository.findById(image.getId())
+				.orElseThrow(() -> new IllegalArgumentException("Invalid image Id:" + image.getId()));
+		
+		if(image.getName()!=null) {
+			imageFromDB.setName(image.getName());
+		}
+		if(id!=null){
+			Product product = productRepository.findById(id)
+					.orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
+			imageFromDB.setProduct(product);
+		}
+		imageRepository.save(imageFromDB);
+        return "redirect:/image/list";        
+    }
+	
+	
 	
 	@PostMapping("/upload")
     public String upload(@RequestParam("file") MultipartFile file,@RequestParam("id") Long id) {
@@ -74,7 +100,7 @@ public class ImageController {
         	}
 		} catch (IOException e) {
 			e.printStackTrace();
-	        return "image-upload";
+	        return "image-list";
 		} 
         return "redirect:/image/list";        
     }

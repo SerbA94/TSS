@@ -37,8 +37,8 @@ div {
 	
 }
 .img-list {
-	height: 306px;
-	width : 409px;
+	width : 100%;
+	background-size: cover;
 	
 }
 

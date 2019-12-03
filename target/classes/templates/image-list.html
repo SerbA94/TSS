@@ -4,7 +4,7 @@
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 	<head>
-		<title>Image upload</title>
+		<title>Image list</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -52,26 +52,31 @@
 		
 		
 						<div class="box">
+							<div class="box-header" >
+								<h5 class="box-title brand-style">Images</h5>
+							</div>
 							<table class="tables">
-    							<thead class="thead-light">
-      								<tr>
-        								<th>images</th>
-      								</tr>
-    							</thead>
     							<tbody>
     								<tr th:if="${images.empty}"><td colspan="2">No images Available</td></tr>
 									<tr th:each="image : ${images}">
-							
 										<td class="fd-row">
-											<div>
-												<span th:text="${image.name}"></span>
+											<div class="box">
+												
+												<div>
+												  <button type="button" data-toggle="collapse" th:attr="data-target='#image'+${image.id}">
+												  	<img th:src="@{/image/{id}(id=${image.id})}"  class="img-list">
+												  </button>
+												  <div th:id="'image'+${image.id}" class="collapse">
+									
+													<a th:href="@{/image/update/{id}(id=${image.id})}">update</a>
+													
 												</div>
-											<div>
-												<a th:href="@{/image/{id}(id=${image.id})}">
-													<img th:src="@{/image/{id}(id=${image.id})}"  class="img-list">
-												</a>
+												
 											</div>
-										</td>
+										</div>
+									</td>
+										
+									
 				
 				<!-- 	<td><a th:href="@{/edit/{id}(id=${user.id})}">edit</a></td> 
 				
