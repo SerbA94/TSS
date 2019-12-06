@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: tss
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: helloworld
+Built-By: alex
 Implementation-Vendor-Id: ua.tss
 Build-Jdk: 1.8.0_221
 Implementation-URL: http://maven.apache.org
