@@ -38,7 +38,7 @@
 			<ul class="navbar-nav mr-4">
 			
 				<li sec:authorize="hasAuthority('CUSTOMER')" class="nav-item">
-					<a class="nav-link " href="/user/profile">[[${#httpServletRequest.remoteUser}]]</a>
+					<a class="nav-link " href="/user/update">[[${#httpServletRequest.remoteUser}]]</a>
 				</li>
 					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 					<a class="nav-link " href="/#">[[${#httpServletRequest.remoteUser}]]</a>

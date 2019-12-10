@@ -62,7 +62,7 @@ public class UserController {
 	}
 	
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
-	@GetMapping("/edit/{id}")
+	@GetMapping("/update/{id}")
 	public String updateForm(@PathVariable("id") long id, Model model) {
 		User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 		model.addAttribute("user", user);
@@ -98,7 +98,7 @@ public class UserController {
 
 	
 	@PreAuthorize("hasAuthority('CUSTOMER')")
-	@GetMapping("/profile")
+	@GetMapping("/update")
 	public String profile(Model model) {
 		Object principal = getCurrentAuthentication().getPrincipal();
 		Long id;
@@ -107,17 +107,18 @@ public class UserController {
 			id = ((User) principal).getId();
 			user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 			model.addAttribute("user", user);
-			return "user-profile";
+			return "user-update";
 		}
 		return "redirect:/";
 	}
 	
 	@PreAuthorize("hasAuthority('CUSTOMER')")
-	@PostMapping("/update-profile")
+	@PostMapping("/update")
 	public String updateProfile(@Valid User user, BindingResult result, Model model) {
-		if (result.hasErrors()) {return "user-profile";}
+		if (result.hasErrors()) {return "user-update";}
+		user.setRoles(Collections.singleton(Role.CUSTOMER));
 		userRepository.save(user);
-		return "user-profile";
+		return "user-update";
 	}
 
 	private Authentication getCurrentAuthentication() {
