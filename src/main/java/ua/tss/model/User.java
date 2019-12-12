@@ -1,6 +1,8 @@
 package ua.tss.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -13,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -48,19 +51,8 @@ public class User implements UserDetails {
 	private String city;
 	private Integer postNumber;
 	
-	/*@OneToMany(fetch = FetchType.EAGER)
-	private Set<Delivery> deliveries;*/
-	
-	
-	
-	/*@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="deliveryAddress_id")    
-	private DeliveryAddress deliveryAddress;*/
-	
-	@ElementCollection(targetClass = Gender.class, fetch = FetchType.EAGER)
-	@CollectionTable(name = "user_gender", joinColumns = @JoinColumn(name = "user_id"))
-	@Enumerated(EnumType.STRING)
-	private Set<Gender> gender;
+	@OneToMany(targetEntity = Order.class,mappedBy = "id")
+	private List<Order> orders = new ArrayList<>();
 	
 	@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
 	@CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -149,24 +141,6 @@ public class User implements UserDetails {
 		this.phoneNumber = phoneNumber;
 	}
 
-	/*public DeliveryAddress getDeliveryAddress() {
-		return deliveryAddress;
-	}
-
-	public void setDeliveryAddress(DeliveryAddress deliveryAddress) {
-		this.deliveryAddress = deliveryAddress;
-	}*/
-
-	public Set<Gender> getGender() {
-		return gender;
-	}
-
-	public void setGender(Set<Gender> gender) {
-		this.gender = gender;
-	}
-	
-	
-
 	public String getRegion() {
 		return region;
 	}
@@ -197,6 +171,16 @@ public class User implements UserDetails {
 
 	public void setPostNumber(Integer postNumber) {
 		this.postNumber = postNumber;
+	}
+	
+	
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	@Override
