@@ -27,7 +27,6 @@ import ua.tss.service.ImageService;
 
 @Controller
 @RequestMapping("image")
-@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 public class ImageController {
 	
 	@Autowired
@@ -44,6 +43,7 @@ public class ImageController {
 	}
 	
 	@GetMapping("/list")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
     public String image(Model model) {
 		model.addAttribute("products", productRepository.findAll());
 		model.addAttribute("images", imageRepository.findAll());
@@ -61,6 +61,7 @@ public class ImageController {
     }
 	
 	@GetMapping("/update/{id}")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
     public String updateForm(@PathVariable("id") Long id,Model model) {
 		Image image = imageRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid image Id:" + id));
@@ -70,6 +71,7 @@ public class ImageController {
     }
 	
 	@PostMapping("/update")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
     public String update(Image image,@RequestParam("productId") Long id) {
 		Image imageFromDB = imageRepository.findById(image.getId())
 				.orElseThrow(() -> new IllegalArgumentException("Invalid image Id:" + image.getId()));
@@ -89,6 +91,7 @@ public class ImageController {
 	
 	
 	@PostMapping("/upload")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
     public String upload(@RequestParam("file") MultipartFile file,@RequestParam("id") Long id) {
         try {
         	if(id!=null) {
@@ -106,6 +109,7 @@ public class ImageController {
     }
 
     @PostMapping("/upload-multiple")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
     public String multipleUpload(@RequestParam("files") MultipartFile[] files,@RequestParam("id") Long id) {
          Arrays.asList(files).stream().forEach(file -> upload(file,id));
          return "redirect:/image/list";        
@@ -122,6 +126,7 @@ public class ImageController {
      }
     
 	@GetMapping("/delete/{id}")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String delete(@PathVariable("id") Long id, Model model) {
 		Image image = imageRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid image Id:" + id));
