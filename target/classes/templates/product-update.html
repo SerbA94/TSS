@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+		<meta charset="utf-8" />   	
+       	<meta name="viewport" content="width=device-width, initial-scale=1" />
+       	
+       	
+       		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+ 	   	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+       	
+       	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+
+<title>Update product</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-md sticky-top ">
+		<a class="navbar-brand" href="/">Mama Store</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<div class="navbar-toggler-icon container">
+				<div><span class="icon-bar"></span></div>
+				<div><span class="icon-bar"></span></div>
+				<div><span class="icon-bar"></span></div>
+			</div>
+  		</button>
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav mr-4">
+			
+				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<a class="nav-link " href="/user/list">User list</a>
+				</li>
+				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<a class="nav-link " href="/image/list">Image list</a>
+				</li>
+				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<a class="nav-link " href="/product/list">Product list</a>
+				</li>
+				<li sec:authorize="!isAuthenticated()" class="nav-item">
+					<a class="nav-link" href="/login">SignIn</a>
+				</li>		
+				<li sec:authorize="isAuthenticated()" class="nav-item" >
+					<a class="nav-link" href="/logout">SignOut</a>
+				</li>
+				<li sec:authorize="!isAuthenticated()" class="nav-item">
+					<a class="nav-link " href="/user/signup">SignUp</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<br>
+<div class="container content-body">
+<div class= "col-md-9" >
+<div class="box shadow-lg">
+<div class="box-header" >
+<h3 class="box-title brand-style">Product</h3>
+</div>
+<div class="box-body">
+	<form th:action="@{/product/update/{id}(id=${product.id})}" th:object="${product}" enctype="multipart/form-data" method="post">
+		<div class="box fd-row">
+		<div class="box col-md-12">
+			<div class="box-body">
+		
+		
+			<div>
+				<label for="name">Name</label>
+				<input type="text" th:field="*{name}" placeholder="Name"> 
+			</div>
+			<div>
+				<label for="description">Description</label>
+
+				
+				<textarea th:field="*{description}" style="width:400px; height:200px;"></textarea>
+
+				
+				 
+			</div>
+			<div>
+				<label for="price">Price</label>
+				<input type="number" th:field="*{price}" placeholder="Price"> 
+			</div>
+			<div>
+				<label for="stock">Stock</label>
+				<input type="number" th:field="*{stock}" placeholder="Stock"> 
+			</div>
+			
+			<div class="form-group">
+				<input type="file" class="form-control" name="files" accept="image/jpeg" multiple>
+			</div>
+			
+			<table class="tables">
+    							<tbody>
+    								<tr th:if="${product.images.empty}"><td colspan="2">No images Available</td></tr>
+									<tr th:each="image : ${product.images}">
+										<td class="fd-row">
+											<div class="box">
+												<div>
+												  	<img th:src="@{/image/{id}(id=${image.id})}" class="img-list">
+												  <!-- <input type="radio" th:field="*{titleImage}" value="image" checked><br> -->
+												</div>
+												<div class="container fd-row jc-center">
+													<h5 class="txt-brand">Image name: </h5>
+													<h5 class="txt">[[${image.name}]]</h5>
+												</div>
+												<div>
+												
+												</div>
+											</div>
+										</td>
+									</tr>
+    							</tbody>
+  							</table>
+						
+			
+		
+				<input type="hidden" th:field="*{id}" value="user.id">
+				
+		</div>
+		</div>
+		
+			
+		</div>
+		<div class="container fd-column">
+				<button type="submit" class="btn"><h4>Update product</h4></button>
+		</div>
+	</form>
+	</div>
+	</div>
+	</div>
+</div>
+	
+		<!-- Footer -->
+	<footer class="footer stiky-bottom">
+        <div class="container">
+        <div class="row">
+        <div class="col-md-12 text-center" style="font-family: cursive">
+        	2019 Mama Store ®: <a href="/" class="footer-brand">Mama Store</a>
+        </div>
+   		</div>
+		</div>
+    </footer>
+<!-- Footer -->
+</body>
+</html>

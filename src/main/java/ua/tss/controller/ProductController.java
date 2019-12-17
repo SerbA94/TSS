@@ -3,7 +3,9 @@ package ua.tss.controller;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +27,6 @@ import ua.tss.service.ImageService;
 
 @Controller
 @RequestMapping("product")
-@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 public class ProductController {
 	
 	private final ProductRepository productRepository;
@@ -42,13 +43,65 @@ public class ProductController {
     private ImageService imageService;
 	
 	@GetMapping("/list")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String list(Model model) {
 		model.addAttribute("products", productRepository.findAll());
 		model.addAttribute("product", new Product());
 		return "product-list";
 	}
 	
+	/* test */
+	@GetMapping("/products")
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public String products(Model model) {
+		List<Product> prods = new ArrayList<Product>();
+		for (Product product : productRepository.findAll()) {
+			if(product.getStock()!=null&&product.getStock()>0) {
+				prods.add(product);
+			}
+		}
+		
+		model.addAttribute("products", prods);
+		return "products";
+	}
+	
+	@GetMapping("/update/{id}")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
+	public String update(@PathVariable("id") long id,Model model) {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
+		model.addAttribute("product", product);
+		return "product-update";
+	}
+	
+	@PostMapping("/update/{id}")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
+	public String uodate(Product product,BindingResult result,Model model,@RequestParam("files") MultipartFile[] files) {
+		if (result.hasErrors()) {
+			model.addAttribute("products", productRepository.findAll());
+			return "product-list";
+		}
+		if (productRepository.findByName(product.getName()) == null) {
+			FieldError existError = new FieldError("product", "name", "Product is not Exists!");
+			result.addError(existError);
+			model.addAttribute("products", productRepository.findAll());
+			return "product-list";
+		}
+		productRepository.save(product);
+	    Arrays.asList(files).stream().forEach(file -> {
+	    	if(!file.isEmpty()) {
+				try {
+					imageService.storeImage(file,product);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	        }
+		});
+		return "redirect:/product/list";
+	}
+	
 	@PostMapping("/create")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String create(Product product,BindingResult result,Model model,@RequestParam("files") MultipartFile[] files) {
 		if (result.hasErrors()) {
 			model.addAttribute("products", productRepository.findAll());
@@ -73,7 +126,8 @@ public class ProductController {
 		return "redirect:/product/list";
 	}
 	
-	@GetMapping("/delete/{id}")
+	@GetMapping("/delete/{id}")	
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String delete(@PathVariable("id") Long id, Model model) {
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
