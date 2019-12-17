@@ -1,15 +1,22 @@
 package ua.tss.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 
 @Entity
@@ -21,6 +28,16 @@ public class Order {
 	private Long id;
 	
     private String status;
+    
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date_created", nullable = false, updatable = false)
+    private Date dateCreated;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date_updated", nullable = false)
+    @LastModifiedDate
+    private Date dateUpdated;
 	
     @OneToMany(mappedBy = "pk.order")
     private List<OrderProduct> orderProducts = new ArrayList<>();
@@ -64,7 +81,21 @@ public class Order {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Date getDateUpdated() {
+		return dateUpdated;
+	}
+
+	public void setDateUpdated(Date dateUpdated) {
+		this.dateUpdated = dateUpdated;
+	}
 
 }
