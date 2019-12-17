@@ -27,7 +27,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "usr")
 public class User implements UserDetails {
 
-
 	private static final long serialVersionUID = 2527270164989228724L;
 
 	@Id
