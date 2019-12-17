@@ -23,13 +23,46 @@
 		<a class="navbar-brand" href="/">Mama Store</a>
 	</nav>
 
-	<div class="content-body">
-	
-	
-	
-	
-	
-	</div>
+<div class="container content-body">
+			<div class="col-md-9">
+				<div class="box shadow-lg">
+					<div class="box-header" >
+						<h3 class="box-title brand-style">Cart</h3>
+					</div>
+					<div class="box-body">
+						<div class="box">
+							<div class="box-header" >
+								<h5 class="box-title brand-style">Products</h5>
+							</div>		
+							<table class="table">
+    							<thead class="thead-light">
+      								<tr>
+        								<th>Product name</th>
+        								<th>Product price</th>
+         								<th>Description</th>
+          								<th>Product image</th>
+           								<th></th>
+          								<th></th>
+           								
+     								</tr>
+    							</thead>
+    							<tbody>
+    								<tr th:if="${productsInCart.empty}"><td colspan="2">No Products in cart</td></tr>
+									<tr th:each="product : ${productsInCart}">
+										<td><span th:text="${product.name}"></span></td>
+										<td><span th:text="${product.price}"></span></td>
+										<td><span th:text="${product.description}"></span></td>
+										<td><img th:src="@{/image/{id}(id=${product.images[0].id})}" class="img-table"></td>
+										<td><button type="submit" class="btn-remove"><h5>Remove</h5></button></td>
+																		
+									</tr>
+						    	</tbody>
+						  	</table>
+						</div>
+  					</div>
+  				</div>
+  			</div> 
+  		</div>
 
 	<!-- Footer -->
 	<footer class="footer stiky-bottom">
