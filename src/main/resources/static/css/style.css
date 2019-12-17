@@ -190,6 +190,9 @@ div {
 .jc-start {
 	justify-content: flex-start !important;
 }
+.jc-end {
+	justify-content: flex-end !important;
+}
 .jc-center {
 	justify-content: center !important;
 }

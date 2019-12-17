@@ -60,7 +60,7 @@ public class ProductController {
 				prods.add(product);
 			}
 		}
-		
+		model.addAttribute("productsInCart",prods/*new ArrayList<Product>() */);
 		model.addAttribute("products", prods);
 		return "products";
 	}

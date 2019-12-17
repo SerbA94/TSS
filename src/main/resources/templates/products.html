@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="https://www.thymeleaf.org"
-	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<head>
 	
 		<meta charset="utf-8" />
@@ -11,8 +10,11 @@
  	   	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-       	
-       	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>    
+		
+		
+       	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+       	<script src="/js/cart.js" async ></script>
+       	 
 		<title>Products</title>
 		
 	</head>
@@ -69,22 +71,58 @@
          								<th>Description</th>
           								<th>Product image</th>
            								<th></th>
+          								<th></th>
+           								
      								</tr>
     							</thead>
     							<tbody>
     								<tr th:if="${products.empty}"><td colspan="2">No Products Available</td></tr>
 									<tr th:each="product : ${products}">
-										<td><span th:text="${product.name}"></span></td>
-										<td><span th:text="${product.price}"></span></td>
+										<td><span th:text="${product.name}" class="product-name"></span></td>
+										<td><span th:text="${product.price}" class="product-price"></span></td>
 										<td><span th:text="${product.description}"></span></td>
-										<td><img th:src="@{/image/{id}(id=${product.images[0].id})}" class="img-table"></td>									
+										<td><img th:src="@{/image/{id}(id=${product.images[0].id})}" class="img-table"></td>
+										<td><button type="submit" class="btn-add btn"><h5>Add to cart</h5></button></td>
+																		
 									</tr>
 						    	</tbody>
 						  	</table>
 						</div>
   					</div>
   				</div>
-  			</div>
+  			</div> 
+  		</div>
+  		
+  		
+  		
+  		<div class="container content-body">
+			<div class="col-md-9">
+				<div class="box shadow-lg">
+					<div class="box-header" >
+						<h3 class="box-title brand-style">Cart</h3>
+					</div>
+					
+
+            <div class="box cart-items">
+            	
+            	
+            
+            
+            </div>
+            <div class="box fd-row jc-center cart-total">
+                <strong class="cart-total-title  brand-style">Total</strong>
+                <span class="cart-total-price brand-style">0</span>
+            </div>
+            <button class="btn btn-purchase" type="button">PURCHASE</button>
+            
+            
+            
+            
+       
+					
+					
+  				</div>
+  			</div> 
   		</div>
   
   
