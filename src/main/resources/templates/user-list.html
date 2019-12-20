@@ -61,6 +61,7 @@
 							        	<th>User name</th>
 							        	<th>Phone number</th>
 							         	<th>Role</th>
+							         	<th>Orders</th>
 							          	<th></th>
 							           	<th></th>
 							      	</tr>
@@ -68,9 +69,14 @@
 							    <tbody>
 							    	<tr th:if="${users.empty}"><td colspan="2">No Users Available</td></tr>
 									<tr th:each="user : ${users}">
-										<td><span th:text="${user.username}"> User name </span></td>
-										<td><span th:text="${user.phoneNumber}"> Phone number </span></td>
-										<td><span th:text="${user.roles}"> Role </span></td>
+										<td><span th:text="${user.username}"></span></td>
+										<td><span th:text="${user.phoneNumber}"></span></td>
+										<td><span th:text="${user.roles}"></span></td>
+										<td>
+											<a th:if="${user.orders.size()!=0}" th:href="@{/order/list-user-{id}(id=${user.id})}" th:text="${user.orders.size()}"></a>
+											<span th:if="${user.orders.size()==0}" th:text="${user.orders.size()}"></span>
+										</td>
+										
 										<td><a th:href="@{/user/update/{id}(id=${user.id})}">update</a></td>
 										<td><a th:href="@{/user/delete/{id}(id=${user.id})}">delete</a></td>
 									</tr>

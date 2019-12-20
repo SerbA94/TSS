@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,6 +75,15 @@ public class OrderController {
        
 		return "redirect:/product/products";
 	}
+	
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
+	@GetMapping("/list-user-{id}")
+	public String list(@PathVariable("id") long id,Model model) {
+		User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+		model.addAttribute("orders", user.getOrders());
+		return "order-list";
+	}
+	
 	
 	private Authentication getCurrentAuthentication() {
 		return SecurityContextHolder.getContext().getAuthentication();

@@ -53,6 +53,7 @@ public class User implements UserDetails {
 	@OneToMany(targetEntity = Order.class,mappedBy = "user")
 	private List<Order> orders = new ArrayList<>();
 	
+	
 	@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
 	@CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
 	@Enumerated(EnumType.STRING)
