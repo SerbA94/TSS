@@ -5,6 +5,7 @@ package ua.tss.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.tss.model.Product;
+import ua.tss.model.dto.OrderProductDto;
 import ua.tss.repository.ImageRepository;
 import ua.tss.repository.ProductRepository;
 import ua.tss.service.ImageService;
@@ -50,20 +52,37 @@ public class ProductController {
 		return "product-list";
 	}
 	
-	/* test */
+	/* test **** needs update */
+	/*#################################################################*/
 	@GetMapping("/products")
 	@PreAuthorize("hasAuthority('CUSTOMER')")
 	public String products(Model model) {
-		List<Product> prods = new ArrayList<Product>();
+		List<Product> products = new ArrayList<Product>();
 		for (Product product : productRepository.findAll()) {
 			if(product.getStock()!=null&&product.getStock()>0) {
-				prods.add(product);
+				products.add(product);
 			}
 		}
-		model.addAttribute("productsInCart",prods/*new ArrayList<Product>() */);
-		model.addAttribute("products", prods);
+		model.addAttribute("products", products);
 		return "products";
 	}
+	@PostMapping("/products")
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public String productsPost(
+			Model model,
+			@RequestParam("nameArray") String[] nameArray,
+			@RequestParam("quantityArray") Integer[] quantityArray) {
+		
+		if(nameArray.length!=quantityArray.length) {return "redirect:/";}
+		for(int i = 0;i<nameArray.length;i++) {
+			System.out.println(nameArray[i]+" - "+quantityArray[i]);
+		}
+		
+		return "redirect:/";
+	}
+	
+	/*#################################################################*/
+
 	
 	@GetMapping("/update/{id}")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
@@ -76,7 +95,7 @@ public class ProductController {
 	
 	@PostMapping("/update/{id}")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
-	public String uodate(Product product,BindingResult result,Model model,@RequestParam("files") MultipartFile[] files) {
+	public String update(Product product,BindingResult result,Model model,@RequestParam("files") MultipartFile[] files) {
 		if (result.hasErrors()) {
 			model.addAttribute("products", productRepository.findAll());
 			return "product-list";

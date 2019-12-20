@@ -103,17 +103,23 @@
 					</div>
 					
 
-            <div class="box cart-items">
+            <form th:action="@{/product/products}"  method="post" class="box cart-items">
             	
             	
             
+           	<button type="submit" class="btn">
+				<h4>Submit</h4>
+			</button>
             
-            </div>
+            </form>
             <div class="box fd-row jc-center cart-total">
                 <strong class="cart-total-title  brand-style">Total</strong>
                 <span class="cart-total-price brand-style">0</span>
             </div>
+            
+            
             <button class="btn btn-purchase" type="button">PURCHASE</button>
+            
             
             
             

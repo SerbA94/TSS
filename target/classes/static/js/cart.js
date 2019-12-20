@@ -63,10 +63,11 @@ function addProductToCart(productName,productPrice,productImage) {
 		    <div>
 		    	<img src="${productImage}" class="img-table">
 		    	<span class="product-name">${productName}</span>
+		    	<input type="hidden" name="nameArray" value="${productName}">
 		    </div>
            	<span class="product-price">${productPrice}</span>
             <div>
-            	<input class="product-quantity-input" type="number" value="1">
+            	<input class="product-quantity-input" type="number" name="quantityArray" value="1">
             	<button type="submit" class="btn-remove btn">Remove</button>
             </div>
         </div>`
