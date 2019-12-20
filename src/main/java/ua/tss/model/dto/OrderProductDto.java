@@ -8,7 +8,15 @@ public class OrderProductDto {
     private Integer productQuantity;
     
     
+    public OrderProductDto() {
+		super();
+	}
 
+	public OrderProductDto(Product product, Integer productQuantity) {
+		super();
+		this.product = product;
+		this.productQuantity = productQuantity;
+	}
 
 	public Product getProduct() {
 		return product;

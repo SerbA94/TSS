@@ -5,7 +5,6 @@ package ua.tss.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.tss.model.Product;
-import ua.tss.model.dto.OrderProductDto;
 import ua.tss.repository.ImageRepository;
 import ua.tss.repository.ProductRepository;
 import ua.tss.service.ImageService;
+
 
 @Controller
 @RequestMapping("product")
@@ -43,6 +42,7 @@ public class ProductController {
 	
 	@Autowired
     private ImageService imageService;
+
 	
 	@GetMapping("/list")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
@@ -66,20 +66,7 @@ public class ProductController {
 		model.addAttribute("products", products);
 		return "products";
 	}
-	@PostMapping("/products")
-	@PreAuthorize("hasAuthority('CUSTOMER')")
-	public String productsPost(
-			Model model,
-			@RequestParam("nameArray") String[] nameArray,
-			@RequestParam("quantityArray") Integer[] quantityArray) {
-		
-		if(nameArray.length!=quantityArray.length) {return "redirect:/";}
-		for(int i = 0;i<nameArray.length;i++) {
-			System.out.println(nameArray[i]+" - "+quantityArray[i]);
-		}
-		
-		return "redirect:/";
-	}
+	
 	
 	/*#################################################################*/
 
