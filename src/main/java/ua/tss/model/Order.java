@@ -1,5 +1,6 @@
 package ua.tss.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,12 +31,11 @@ public class Order {
     private String status;
     
     @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "date_created", nullable = false, updatable = false)
-    private Date dateCreated;
+	@Column(name = "date_created"/* , nullable = false, updatable = false */)
+    private LocalDate dateCreated;
     
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "date_updated", nullable = false)
+	@Column(name = "date_updated"/* , nullable = false */)
     @LastModifiedDate
     private Date dateUpdated;
 	
@@ -82,12 +82,12 @@ public class Order {
 		this.id = id;
 	}
 
-	public Date getDateCreated() {
+	public LocalDate getDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
+	public void setDateCreated(LocalDate localDate) {
+		this.dateCreated = localDate;
 	}
 
 	public Date getDateUpdated() {

@@ -3,29 +3,30 @@ package ua.tss.model.dto;
 import ua.tss.model.Product;
 
 public class OrderProductDto {
-	
-	
-	  
-	   
+ 
+	private Product product;
+    private Integer productQuantity;
+    
+    
 
-    private Product product;
-    private Integer quantity;
 
-    public Product getProduct() {
-        return product;
-    }
+	public Product getProduct() {
+		return product;
+	}
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+  
+	public Integer getProductQuantity() {
+		return productQuantity;
+	}
+	public void setProductQuantity(Integer productQuantity) {
+		this.productQuantity = productQuantity;
+	}
+    
+    
     
  
     
