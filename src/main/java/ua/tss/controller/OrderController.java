@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ua.tss.model.Order;
 import ua.tss.model.OrderProduct;
 import ua.tss.model.Product;
+import ua.tss.model.User;
 import ua.tss.model.dto.OrderProductDto;
 import ua.tss.repository.ProductRepository;
+import ua.tss.repository.UserRepository;
 import ua.tss.service.OrderProductService;
 import ua.tss.service.OrderService;
 
@@ -31,6 +35,9 @@ public class OrderController {
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
+    @Autowired
+    private UserRepository userRepository;
 
 	@PostMapping("/create")
 	@PreAuthorize("hasAuthority('CUSTOMER')")
@@ -55,9 +62,20 @@ public class OrderController {
         }
         
         order.setOrderProducts(orderProducts);
+        
+        Object principal = getCurrentAuthentication().getPrincipal();
+		if (principal instanceof User) {
+			Long id = ((User) principal).getId();
+			User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+	        order.setUser(user);
+		}
         orderService.update(order);
        
 		return "redirect:/product/products";
+	}
+	
+	private Authentication getCurrentAuthentication() {
+		return SecurityContextHolder.getContext().getAuthentication();
 	}
 
 }

@@ -50,7 +50,7 @@ public class User implements UserDetails {
 	private String city;
 	private Integer postNumber;
 	
-	@OneToMany(targetEntity = Order.class,mappedBy = "id")
+	@OneToMany(targetEntity = Order.class,mappedBy = "user")
 	private List<Order> orders = new ArrayList<>();
 	
 	@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
