@@ -1,5 +1,6 @@
 package ua.tss.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,8 +37,10 @@ import ua.tss.model.enums.Role;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable {
 	
+	private static final long serialVersionUID = -8538383382391252333L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -66,6 +70,9 @@ public class Order {
 	@CollectionTable(name = "order_paymentStatus", joinColumns = @JoinColumn(name = "order_id"))
 	@Enumerated(EnumType.STRING)
 	private Set<PaymentStatus> paymentStatus = new LinkedHashSet<PaymentStatus>();
+	
+    @OneToOne(mappedBy = "order")
+	private DeliveryDetails deliveryDetails;
   
     
     @Transient
@@ -138,6 +145,14 @@ public class Order {
 
 	public void setPaymentStatus(Set<PaymentStatus> paymentStatus) {
 		this.paymentStatus = paymentStatus;
+	}
+
+	public DeliveryDetails getDeliveryDetails() {
+		return deliveryDetails;
+	}
+
+	public void setDeliveryDetails(DeliveryDetails deliveryDetails) {
+		this.deliveryDetails = deliveryDetails;
 	}
 	
 	
