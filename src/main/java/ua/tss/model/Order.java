@@ -3,10 +3,17 @@ package ua.tss.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +28,10 @@ import javax.persistence.Transient;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import ua.tss.model.enums.DeliveryStatus;
+import ua.tss.model.enums.PaymentStatus;
+import ua.tss.model.enums.Role;
+
 
 @Entity
 @Table(name = "orders")
@@ -29,9 +40,7 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-    private String status;
-    
+	    
     @CreatedDate
 	@Column(name = "date_created"/* , nullable = false, updatable = false */)
     private LocalDate dateCreated;
@@ -47,6 +56,16 @@ public class Order {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+    
+	@ElementCollection(targetClass = DeliveryStatus.class, fetch = FetchType.EAGER)
+	@CollectionTable(name = "order_deliveryStatus", joinColumns = @JoinColumn(name = "order_id"))
+	@Enumerated(EnumType.STRING)
+	private Set<DeliveryStatus> deliveryStatus = new LinkedHashSet<DeliveryStatus>();
+
+	@ElementCollection(targetClass = PaymentStatus.class, fetch = FetchType.EAGER)
+	@CollectionTable(name = "order_paymentStatus", joinColumns = @JoinColumn(name = "order_id"))
+	@Enumerated(EnumType.STRING)
+	private Set<PaymentStatus> paymentStatus = new LinkedHashSet<PaymentStatus>();
   
     
     @Transient
@@ -64,14 +83,6 @@ public class Order {
     public int getNumberOfProducts() {
         return this.orderProducts.size();
     }
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public List<OrderProduct> getOrderProducts() {
 		return orderProducts;
@@ -112,6 +123,25 @@ public class Order {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Set<DeliveryStatus> getDeliveryStatus() {
+		return deliveryStatus;
+	}
+
+	public void setDeliveryStatus(Set<DeliveryStatus> deliveryStatus) {
+		this.deliveryStatus = deliveryStatus;
+	}
+
+	public Set<PaymentStatus> getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(Set<PaymentStatus> paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
+	
+	
+
 	
 	
 

@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ua.tss.model.Role;
 import ua.tss.model.User;
+import ua.tss.model.enums.Role;
 import ua.tss.repository.UserRepository;
 
 @Controller

@@ -1,4 +1,4 @@
-package ua.tss.model;
+package ua.tss.model.enums;
 
 
 

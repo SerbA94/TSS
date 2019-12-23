@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<head>
+		<meta charset="utf-8" />   	
+       	<meta name="viewport" content="width=device-width, initial-scale=1" />
+       	
+       	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+ 	   	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+       	
+       	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+
+	<title>Update order</title>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-md sticky-top ">
+			<a class="navbar-brand" href="/">Mama Store</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<div class="navbar-toggler-icon container">
+					<div><span class="icon-bar"></span></div>
+					<div><span class="icon-bar"></span></div>
+					<div><span class="icon-bar"></span></div>
+				</div>
+  			</button>
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav mr-4">
+				
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+						<a class="nav-link " href="/user/list">User list</a>
+					</li>
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+						<a class="nav-link " href="/image/list">Image list</a>
+					</li>
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+						<a class="nav-link " href="/product/list">Product list</a>
+					</li>
+					<li sec:authorize="!isAuthenticated()" class="nav-item">
+						<a class="nav-link" href="/login">SignIn</a>
+					</li>		
+					<li sec:authorize="isAuthenticated()" class="nav-item" >
+						<a class="nav-link" href="/logout">SignOut</a>
+					</li>
+					<li sec:authorize="!isAuthenticated()" class="nav-item">
+						<a class="nav-link " href="/user/signup">SignUp</a>
+					</li>
+				</ul>
+			</div>
+		</nav><br>
+		<div class="container content-body">
+			<div class= "col-md-9" >
+				<div class="box shadow-lg">
+					<div class="box-header" >
+						<h3 class="box-title brand-style">Order</h3>
+					</div>
+					<div class="box-body">
+					
+					
+						<form th:action="@{/order/update}" th:object="${order}" method="post">
+							
+								<div class="box col-md-12 fd-row">
+									<div class="box-body box">
+										<div>
+											<label><b>Order id: </b><br></label>
+											<span th:text="${order.id}"></span>
+											<input type="hidden" th:field="*{id}" value="order.id">	
+										</div>
+										<div>
+											<label><b>Date created: </b><br></label>
+											<span th:text="${order.dateCreated}"></span>
+											<input type="hidden" th:field="*{dateCreated}" value="order.dateCreated">	
+										</div>
+										<div>
+											<label><b>Date updated: </b><br></label>
+											<span th:text="${order.dateUpdated}"></span>
+											<input type="hidden" th:field="*{dateUpdated}" value="order.dateUpdated">
+										</div>
+										
+										<div class="box">
+											<b>Delivery status: </b><br>
+											<select th:field="*{deliveryStatus}">
+												<option th:value="${order.deliveryStatus}" selected>[[${order.deliveryStatus[0]}]]</option>												
+												<option th:value="HANDLING">HANDLING</option>
+												<option th:value="ON_DELIVERY">ON DELIVERY</option>
+												<option th:value="DELIVERED">DELIVERED</option>
+											</select>
+										</div>
+										<div class="box">
+											<b>Payment status: </b><br>
+											<select th:field="*{paymentStatus}">
+												<option th:value="${order.paymentStatus}" selected>[[${order.paymentStatus[0]}]]</option>
+												<option th:value="NOT_PAID">NOT PAID</option>
+												<option th:value="PAID">PAID</option>
+												<option th:value="COD">COD</option>
+											</select>
+										</div>
+																			
+									</div>
+									<div class="box-body box">
+										<div>
+											<label><b>First name: </b><br></label>
+											<span th:text="${order.user.firstName}"></span>
+										</div>
+										<div>
+											<label><b>Last name: </b><br></label>
+											<span th:text="${order.user.lastName}"></span>
+										</div>
+										<div>
+											<label><b>Middle name: </b><br></label>
+											<span th:text="${order.user.middleName}"></span>
+										</div>
+										<div>
+											<label><b>Phone number: </b><br></label>
+											<span th:text="${order.user.phoneNumber}"></span>
+										</div>
+										<div>
+											<label><b>Region: </b><br></label>
+											<span th:text="${order.user.region}"></span>
+										</div>
+										<div>
+											<label><b>District: </b><br></label>
+											<span th:text="${order.user.district}"></span>
+										</div>
+										<div>
+											<label><b>City: </b><br></label>
+											<span th:text="${order.user.city}"></span>
+										</div>
+										<div>
+											<label><b>Post number: </b><br></label>
+											<span th:text="${order.user.postNumber}"></span>
+										</div>
+										<div>
+											<h5><a class="nav-link " th:href="@{/user/update/{id}(id=${order.user.id})}">Update user info</a></h5>
+										</div>
+									</div>
+								</div>
+								<div class="box col-md-12 fd-column">
+									<div class="box-header" >
+										<h5 class="box-title brand-style">Products</h5>
+									</div>		
+									<table class="table">
+    									<thead class="thead-light">
+    							
+		      								<tr>
+		        								<th>IMAGE</th>
+		        								<th>Product name</th>
+		        								<th>Quantity</th>
+		        								<th>Price</th>
+		          								<th>Total price</th>								
+		     								</tr>
+     								
+    									</thead>
+		    							<tbody>
+		    								<tr th:if="${order.orderProducts.empty}"><td colspan="2">No Orders Available</td></tr>
+											<tr th:each="orderProduct : ${order.orderProducts}">
+												<td><img th:src="@{/image/{id}(id=${orderProduct.product.images[0].id})}" class="img-table"></td>
+												<td><span th:text="${orderProduct.product.name}"></span></td>
+												<td><span th:text="${orderProduct.quantity}"></span></td>
+												<td><span th:text="${orderProduct.product.price}"></span></td>
+												<td><span th:text="${orderProduct.totalPrice}"></span></td>
+											</tr>
+								    	</tbody>
+								  	</table>
+								  	<div class="box brand-style jc-right ">
+								  		<b>Total order price: 
+											<span th:text="${order.totalOrderPrice}"></span>
+										</b>
+								  	</div>
+								  	
+								</div>					
+							<div class="container fd-column">
+								<button type="submit" class="btn"><h4>Update order</h4></button>
+							</div>
+						</form>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Footer -->
+	<footer class="footer stiky-bottom">
+        <div class="container">
+        <div class="row">
+        <div class="col-md-12 text-center" style="font-family: cursive">
+        	2019 Mama Store ®: <a href="/" class="footer-brand">Mama Store</a>
+        </div>
+   		</div>
+		</div>
+    </footer>
+<!-- Footer -->
+</body>
+</html>

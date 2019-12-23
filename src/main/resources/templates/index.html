@@ -40,10 +40,16 @@
 				<li sec:authorize="hasAuthority('CUSTOMER')" class="nav-item">
 					<a class="nav-link " href="/user/update">[[${#httpServletRequest.remoteUser}]]</a>
 				</li>
-					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+				<li sec:authorize="hasAuthority('CUSTOMER')" class="nav-item">
+					<a class="nav-link " href="/order/list-personal">My Orders</a>
+				</li>
+				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 					<a class="nav-link " href="/#">[[${#httpServletRequest.remoteUser}]]</a>
 				</li>
 				
+				<li sec:authorize="hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')" class="nav-item">
+					<a class="nav-link" href="/order/list">Order list</a>
+				</li>
 				<li sec:authorize="hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')" class="nav-item">
 					<a class="nav-link" href="/image/list">Image list</a>
 				</li>

@@ -23,6 +23,8 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import ua.tss.model.enums.Role;
+
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {

@@ -67,13 +67,16 @@
     							<thead class="thead-light">
     							
       								<tr>
-      									
         								<th>Order number</th>
-        								<th>Status</th>
+        								<th>Payment Status</th>
+        								<th>Delivery Status</th>
+        								<th>Date</th>
          								<th>Number of products</th>
           								<th>Total price</th>
-           								<th></th>
-           								<th></th>           								
+           								<th sec:authorize="hasAuthority('CUSTOMER')"></th>
+           								<th sec:authorize="hasAuthority('ADMIN')"></th>
+           								<th sec:authorize="hasAuthority('ADMIN')"></th>
+           								<th sec:authorize="hasAuthority('ADMIN')"></th>           								
      								</tr>
      								
     							</thead>
@@ -81,11 +84,15 @@
     								<tr th:if="${orders.empty}"><td colspan="2">No Orders Available</td></tr>
 									<tr th:each="order : ${orders}">
 										<td><span th:text="${order.id}"></span></td>
-										<td><span th:text="${order.status}"></span></td>
+										<td><span th:text="${order.paymentStatus}"></span></td>
+										<td><span th:text="${order.deliveryStatus}"></span></td>
+										<td><span th:text="${order.dateCreated}"></span></td>
 										<td><span th:text="${order.numberOfProducts}"></span></td>
 										<td><span th:text="${order.totalOrderPrice}"></span></td>
-										<td><a th:href="@{/}">update</a></td>						
-										<td><a th:href="@{/}">delete</a></td>
+										<td sec:authorize="hasAuthority('CUSTOMER')"><a th:href="@{/order/personal-{id}(id=${order.id})}">details</a></td>
+										<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/order/{id}(id=${order.id})}">details</a></td>												
+										<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/order/update-{id}(id=${order.id})}">update</a></td>						
+										<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/order/delete-{id}(id=${order.id})}">delete</a></td>
 										
 									</tr>
 						    	</tbody>
