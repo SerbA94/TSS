@@ -8,6 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -32,7 +33,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import ua.tss.model.enums.DeliveryStatus;
 import ua.tss.model.enums.PaymentStatus;
-import ua.tss.model.enums.Role;
 
 
 @Entity
@@ -71,7 +71,9 @@ public class Order implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Set<PaymentStatus> paymentStatus = new LinkedHashSet<PaymentStatus>();
 	
-    @OneToOne(mappedBy = "order")
+    
+    @OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "deliveryDetails_id", referencedColumnName = "id")
 	private DeliveryDetails deliveryDetails;
   
     

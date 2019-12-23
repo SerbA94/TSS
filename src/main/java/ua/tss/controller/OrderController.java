@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ua.tss.model.DeliveryDetails;
 import ua.tss.model.Order;
 import ua.tss.model.OrderProduct;
 import ua.tss.model.Product;
@@ -27,24 +28,29 @@ import ua.tss.model.enums.PaymentStatus;
 import ua.tss.repository.OrderRepository;
 import ua.tss.repository.ProductRepository;
 import ua.tss.repository.UserRepository;
+import ua.tss.service.DeliveryDetailsService;
 import ua.tss.service.OrderProductService;
 import ua.tss.service.OrderService;
 
 @Controller
 @RequestMapping("order")
 public class OrderController {
-
-	@Autowired
-	private OrderService orderService;
 	
 	@Autowired
-	private OrderRepository orderRepository;
+	private DeliveryDetailsService deliveryDetailsService;
 
 	@Autowired
 	private OrderProductService orderProductService;
+	
+	@Autowired
+	private OrderService orderService;
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	
+	@Autowired
+	private OrderRepository orderRepository;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -54,16 +60,14 @@ public class OrderController {
 	public String create(Model model, @RequestParam("nameArray") String[] nameArray,
 			@RequestParam("quantityArray") Integer[] quantityArray) {
 
-		if (nameArray.length != quantityArray.length) {
-			return "error";
-		}
+		if (nameArray.length != quantityArray.length) {return "error";}
 
 		List<OrderProductDto> opds = new ArrayList<OrderProductDto>();
 		for (int i = 0; i < nameArray.length; i++) {
 			opds.add(new OrderProductDto(productRepository.findByName(nameArray[i]), quantityArray[i]));
 		}
-		Order order = new Order();
-		order = orderService.create(order);
+		
+		Order order = orderService.create(new Order());
 		List<OrderProduct> orderProducts = new ArrayList<>();
 		for (OrderProductDto dto : opds) {
 			Product product = productRepository.findById(dto.getProduct().getId())
@@ -71,9 +75,15 @@ public class OrderController {
 			orderProducts.add(orderProductService.create(new OrderProduct(order, product, dto.getProductQuantity())));
 		}
 		order.setOrderProducts(orderProducts);
-		if (getCurrentUser()!=null) {order.setUser(getCurrentUser());}
+		
+		if (getCurrentUser()!=null) {
+			order.setUser(getCurrentUser());
+			order.setDeliveryDetails(deliveryDetailsService.create(new DeliveryDetails(order)));
+		}
+		
 		order.getDeliveryStatus().add(DeliveryStatus.HANDLING);
 		order.getPaymentStatus().add(PaymentStatus.NOT_PAID);
+		
 		orderService.update(order);
 
 		return "redirect:/product/products";
@@ -99,8 +109,7 @@ public class OrderController {
 	@GetMapping("/delete-{id}")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String delete(@PathVariable("id") long id, Model model) {
-		Order order = orderRepository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + id));
+		Order order = orderRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + id));
 		orderRepository.delete(order);
 		return "redirect:/order/list";
 	}

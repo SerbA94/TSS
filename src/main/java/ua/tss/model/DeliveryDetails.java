@@ -2,12 +2,10 @@ package ua.tss.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -27,8 +25,7 @@ public class DeliveryDetails implements Serializable {
 	private String city;
 	private Integer postNumber;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "order_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "deliveryDetails")
 	private Order order;
 	
 	
@@ -37,16 +34,17 @@ public class DeliveryDetails implements Serializable {
 		super();
 	}
 
-	public DeliveryDetails(User user) {
+	public DeliveryDetails(Order order) {
 		super();
-		this.firstName = user.getFirstName();
-		this.lastName = user.getLastName();
-		this.middleName = user.getMiddleName();
-		this.phoneNumber = user.getPhoneNumber();
-		this.region = user.getRegion();
-		this.district = user.getDistrict();
-		this.city = user.getCity();
-		this.postNumber = user.getPostNumber();
+		this.order = order;
+		this.firstName = order.getUser().getFirstName();
+		this.lastName = order.getUser().getLastName();
+		this.middleName = order.getUser().getMiddleName();
+		this.phoneNumber = order.getUser().getPhoneNumber();
+		this.region = order.getUser().getRegion();
+		this.district = order.getUser().getDistrict();
+		this.city = order.getUser().getCity();
+		this.postNumber = order.getUser().getPostNumber();
 	}
 
 	public Long getId() {

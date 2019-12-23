@@ -98,41 +98,45 @@
 																			
 									</div>
 									<div class="box-body box">
+										<!-- 
+										
 										<div>
 											<label><b>First name: </b><br></label>
-											<span th:text="${order.user.firstName}"></span>
+											<span th:text="${order.deliveryDetails.firstName}"></span>
+											<input type="text" th:field="*{dateUpdated}" value="order.dateUpdated">
+											
 										</div>
 										<div>
 											<label><b>Last name: </b><br></label>
-											<span th:text="${order.user.lastName}"></span>
+											<span th:text="${order.deliveryDetails.lastName}"></span>
 										</div>
 										<div>
 											<label><b>Middle name: </b><br></label>
-											<span th:text="${order.user.middleName}"></span>
+											<span th:text="${order.deliveryDetails.middleName}"></span>
 										</div>
 										<div>
 											<label><b>Phone number: </b><br></label>
-											<span th:text="${order.user.phoneNumber}"></span>
+											<span th:text="${order.deliveryDetails.phoneNumber}"></span>
 										</div>
 										<div>
 											<label><b>Region: </b><br></label>
-											<span th:text="${order.user.region}"></span>
+											<span th:text="${order.deliveryDetails.region}"></span>
 										</div>
 										<div>
 											<label><b>District: </b><br></label>
-											<span th:text="${order.user.district}"></span>
+											<span th:text="${order.deliveryDetails.district}"></span>
 										</div>
 										<div>
 											<label><b>City: </b><br></label>
-											<span th:text="${order.user.city}"></span>
+											<span th:text="${order.deliveryDetails.city}"></span>
 										</div>
 										<div>
 											<label><b>Post number: </b><br></label>
-											<span th:text="${order.user.postNumber}"></span>
-										</div>
-										<div>
-											<h5><a class="nav-link " th:href="@{/user/update/{id}(id=${order.user.id})}">Update user info</a></h5>
-										</div>
+											<span th:text="${order.deliveryDetails.postNumber}"></span>
+										</div>S
+										
+										 -->
+										
 									</div>
 								</div>
 								<div class="box col-md-12 fd-column">

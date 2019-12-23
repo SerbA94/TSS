@@ -176,7 +176,6 @@ public class User implements UserDetails {
 	}
 	
 	
-
 	public List<Order> getOrders() {
 		return orders;
 	}
