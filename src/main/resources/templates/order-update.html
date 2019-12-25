@@ -1,45 +1,45 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<head>
-		<meta charset="utf-8" />   	
-       	<meta name="viewport" content="width=device-width, initial-scale=1" />
-       	
-       	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
- 	   	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-       	
-       	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 
-	<title>Update order</title>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+		<script src="/js/main.js"></script>
+
+		<title>Update order</title>
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-md sticky-top ">
 			<a class="navbar-brand" href="/">Mama Store</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<button class="navbar-toggler" type="button" data-toggle="collapse"data-target="#collapsibleNavbar">
 				<div class="navbar-toggler-icon container">
 					<div><span class="icon-bar"></span></div>
 					<div><span class="icon-bar"></span></div>
 					<div><span class="icon-bar"></span></div>
 				</div>
-  			</button>
+			</button>
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav mr-4">
-				
-					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 						<a class="nav-link " href="/user/list">User list</a>
 					</li>
-					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
-						<a class="nav-link " href="/image/list">Image list</a>
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+						<a	class="nav-link " href="/image/list">Image list</a>
 					</li>
-					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 						<a class="nav-link " href="/product/list">Product list</a>
 					</li>
 					<li sec:authorize="!isAuthenticated()" class="nav-item">
 						<a class="nav-link" href="/login">SignIn</a>
-					</li>		
-					<li sec:authorize="isAuthenticated()" class="nav-item" >
+					</li>
+					<li sec:authorize="isAuthenticated()" class="nav-item">
 						<a class="nav-link" href="/logout">SignOut</a>
 					</li>
 					<li sec:authorize="!isAuthenticated()" class="nav-item">
@@ -49,150 +49,146 @@
 			</div>
 		</nav><br>
 		<div class="container content-body">
-			<div class= "col-md-9" >
+			<div class="col-md-9">
 				<div class="box shadow-lg">
-					<div class="box-header" >
-						<h3 class="box-title brand-style">Order</h3>
-					</div>
+					<div class="box-header"><h3 class="box-title brand-style">Order</h3></div>
 					<div class="box-body">
-					
-					
-						<form th:action="@{/order/update}" th:object="${order}" method="post">
-							
-								<div class="box col-md-12 fd-row">
-									<div class="box-body box">
-										<div>
-											<label><b>Order id: </b><br></label>
-											<span th:text="${order.id}"></span>
-											<input type="hidden" th:field="*{id}" value="order.id">	
-										</div>
-										<div>
-											<label><b>Date created: </b><br></label>
-											<span th:text="${order.dateCreated}"></span>
-											<input type="hidden" th:field="*{dateCreated}" value="order.dateCreated">	
-										</div>
-										<div>
-											<label><b>Date updated: </b><br></label>
-											<span th:text="${order.dateUpdated}"></span>
-											<input type="hidden" th:field="*{dateUpdated}" value="order.dateUpdated">
-										</div>
-										
-										<div class="box">
-											<b>Delivery status: </b><br>
-											<select th:field="*{deliveryStatus}">
-												<option th:value="${order.deliveryStatus}" selected>[[${order.deliveryStatus[0]}]]</option>												
-												<option th:value="HANDLING">HANDLING</option>
-												<option th:value="ON_DELIVERY">ON DELIVERY</option>
-												<option th:value="DELIVERED">DELIVERED</option>
-											</select>
-										</div>
-										<div class="box">
-											<b>Payment status: </b><br>
-											<select th:field="*{paymentStatus}">
-												<option th:value="${order.paymentStatus}" selected>[[${order.paymentStatus[0]}]]</option>
-												<option th:value="NOT_PAID">NOT PAID</option>
-												<option th:value="PAID">PAID</option>
-												<option th:value="COD">COD</option>
-											</select>
-										</div>
-																			
-									</div>
-									<div class="box-body box">
-										<!-- 
-										
-										<div>
-											<label><b>First name: </b><br></label>
-											<span th:text="${order.deliveryDetails.firstName}"></span>
-											<input type="text" th:field="*{dateUpdated}" value="order.dateUpdated">
-											
-										</div>
-										<div>
-											<label><b>Last name: </b><br></label>
-											<span th:text="${order.deliveryDetails.lastName}"></span>
-										</div>
-										<div>
-											<label><b>Middle name: </b><br></label>
-											<span th:text="${order.deliveryDetails.middleName}"></span>
-										</div>
-										<div>
-											<label><b>Phone number: </b><br></label>
-											<span th:text="${order.deliveryDetails.phoneNumber}"></span>
-										</div>
-										<div>
-											<label><b>Region: </b><br></label>
-											<span th:text="${order.deliveryDetails.region}"></span>
-										</div>
-										<div>
-											<label><b>District: </b><br></label>
-											<span th:text="${order.deliveryDetails.district}"></span>
-										</div>
-										<div>
-											<label><b>City: </b><br></label>
-											<span th:text="${order.deliveryDetails.city}"></span>
-										</div>
-										<div>
-											<label><b>Post number: </b><br></label>
-											<span th:text="${order.deliveryDetails.postNumber}"></span>
-										</div>S
-										
-										 -->
-										
-									</div>
+						<div class="box">
+							<div class="box-header"><h5 class="box-title brand-style">Details</h5></div>
+							<div class="fd-row box">
+								<!-- ############################# -->
+								<form th:action="@{/order/update}" th:object="${order}"
+								id="orderBody" method="post" class="box-body box">
+
+								<div>
+									<label><b>Order id: </b><br></label> 
+									<span th:text="${order.id}"></span> 
+									<input type="hidden" th:field="*{id}" value="order.id">
 								</div>
-								<div class="box col-md-12 fd-column">
-									<div class="box-header" >
-										<h5 class="box-title brand-style">Products</h5>
-									</div>		
-									<table class="table">
-    									<thead class="thead-light">
-    							
-		      								<tr>
-		        								<th>IMAGE</th>
-		        								<th>Product name</th>
-		        								<th>Quantity</th>
-		        								<th>Price</th>
-		          								<th>Total price</th>								
-		     								</tr>
-     								
-    									</thead>
-		    							<tbody>
-		    								<tr th:if="${order.orderProducts.empty}"><td colspan="2">No Orders Available</td></tr>
-											<tr th:each="orderProduct : ${order.orderProducts}">
-												<td><img th:src="@{/image/{id}(id=${orderProduct.product.images[0].id})}" class="img-table"></td>
-												<td><span th:text="${orderProduct.product.name}"></span></td>
-												<td><span th:text="${orderProduct.quantity}"></span></td>
-												<td><span th:text="${orderProduct.product.price}"></span></td>
-												<td><span th:text="${orderProduct.totalPrice}"></span></td>
-											</tr>
-								    	</tbody>
-								  	</table>
-								  	<div class="box brand-style jc-right ">
-								  		<b>Total order price: 
-											<span th:text="${order.totalOrderPrice}"></span>
-										</b>
-								  	</div>
-								  	
-								</div>					
-							<div class="container fd-column">
-								<button type="submit" class="btn"><h4>Update order</h4></button>
-							</div>
-						</form>
-						
+								<div>
+									<label><b>Date created: </b><br></label>
+									<span th:text="${order.dateCreated}"></span>
+								</div>
+								<div>
+									<label><b>Date updated: </b><br></label>
+									<span th:text="${order.dateUpdated}"></span>
+								</div>
+								<div class="box">
+									<b>Delivery status: </b><br>
+									<select th:field="*{deliveryStatus}">
+										<option th:value="${order.deliveryStatus}" selected>[[${order.deliveryStatus[0]}]]</option>
+										<option th:value="HANDLING">HANDLING</option>
+										<option th:value="ON_DELIVERY">ON DELIVERY</option>
+										<option th:value="DELIVERED">DELIVERED</option>
+									</select>
+								</div>
+								<div class="box">
+									<b>Payment status: </b><br> 
+									<select th:field="*{paymentStatus}">
+										<option th:value="${order.paymentStatus}" selected>[[${order.paymentStatus[0]}]]</option>
+										<option th:value="NOT_PAID">NOT PAID</option>
+										<option th:value="PAID">PAID</option>
+										<option th:value="COD">COD</option>
+									</select>
+								</div>
+							</form>
+							<!-- ############################# -->
+							<form th:action="@{/order/update-deliveryDetails}" th:object="${deliveryDetails}"
+							id="deliveryDetails" method="post" class="box-body box">
+
+								<input type="hidden" th:field="*{deliveryDetailsId}" value="deliveryDetails.deliveryDetailsId">
+								<input type="hidden" th:field="*{order}" value="deliveryDetails.order">
+								
+								<div>
+									<label><b>Phone number: </b><br></label>
+									<span th:text="${deliveryDetails.phoneNumber}"></span>
+									<input type="hidden" th:field="*{phoneNumber}" value="deliveryDetails.phoneNumber">
+								</div>
+								<div>
+									<label><b>First name: </b><br></label>
+									<input type="text" th:field="*{firstName}" placeholder="First name">
+								</div>
+								<div>
+									<label><b>Last name: </b><br></label>
+									<input type="text" th:field="*{lastName}" placeholder="Last name">
+								</div>
+								<div>
+									<label><b>Middle name: </b><br></label>
+									<input type="text" th:field="*{middleName}" placeholder="Middle name">
+								</div>
+								<div>
+									<label><b>Region: </b><br></label>
+									<input type="text" th:field="*{region}" placeholder="Region">
+								</div>
+								<div>
+									<label><b>District: </b><br></label>
+									<input type="text" th:field="*{district}" placeholder="District">
+								</div>
+								<div>
+									<label><b>City: </b><br></label>
+									<input type="text" th:field="*{city}" placeholder="City">
+								</div>
+								<div>
+									<label><b>Post number: </b><br></label>
+									<input type="text" th:field="*{postNumber}" placeholder="Post number">
+								</div>
+								
+							</form>
+							
+						</div>
+					</div>
+					<!-- ####################################### -->
+					<form th:action="@{/order/update-products}" id="products" method="post" class="box">
+					
+						<input type="hidden" name="orderUPId" th:value="${order.id}">
+						<div class="box-header"><h5 class="box-title brand-style">Products</h5></div>
+						<table class="table">
+							<thead class="thead-light">
+								<tr>
+									<th>IMAGE</th>
+									<th>Product name</th>
+									<th>Quantity</th>
+									<th>Price</th>
+									<th>Total price</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${orderProducts.empty}"><td colspan="2">No Products Available</td></tr>
+								<tr th:each="orderProduct: ${orderProducts}">
+									<td><img th:src="@{/image/{id}(id=${orderProduct.product.images[0].id})}"class="img-table"></td>
+									<td>
+										<span th:text="${orderProduct.product.name}"></span>
+										<input type="hidden" name="nameArray" th:value="${orderProduct.product.name}">
+									</td>
+									<td><input class="product-quantity-input" type="number" name="quantityArray" th:value="${orderProduct.quantity}"></td>
+									<td><span th:text="${orderProduct.product.price}"></span></td>
+									<td><span th:text="${orderProduct.totalPrice}"></span></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="box brand-style jc-right">
+							<div><b>Total order price: <span th:text="${order.totalOrderPrice}"></span></b></div>
+						</div>
+
+					</form>
+					<!-- ##################### -->
+					<div class="container fd-column">
+						<button type="button" class="btn" onclick="submitOrderForms()"><h4>Update order</h4></button>
 					</div>
 				</div>
 			</div>
 		</div>
-	
+	</div>
 		<!-- Footer -->
-	<footer class="footer stiky-bottom">
-        <div class="container">
-        <div class="row">
-        <div class="col-md-12 text-center" style="font-family: cursive">
-        	2019 Mama Store ®: <a href="/" class="footer-brand">Mama Store</a>
-        </div>
-   		</div>
-		</div>
-    </footer>
-<!-- Footer -->
-</body>
+		<footer class="footer stiky-bottom">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center" style="font-family: cursive">
+						2019 Mama Store ®: <a href="/" class="footer-brand">Mama Store</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- Footer -->
+	</body>
 </html>

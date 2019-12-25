@@ -25,11 +25,13 @@ public class OrderService {
 
     public Order create(Order order) {
         order.setDateCreated(LocalDate.now());
+        order.setDateUpdated(LocalDate.now());
 
         return this.orderRepository.save(order);
     }
 
     public void update(Order order) {
+        order.setDateUpdated(LocalDate.now());
         this.orderRepository.save(order);
     }
 

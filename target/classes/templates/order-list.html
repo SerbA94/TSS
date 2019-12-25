@@ -51,7 +51,7 @@
 			</div>
 		</nav>
 		<div class="container content-body">
-			<div class="col-md-9">
+			<div class="col-md-12">
 				<div class="box shadow-lg">
 					<div class="box-header" >
 						<h3 class="box-title brand-style">Order list</h3>
@@ -70,7 +70,8 @@
         								<th>Order number</th>
         								<th>Payment Status</th>
         								<th>Delivery Status</th>
-        								<th>Date</th>
+        								<th>Date created</th>
+        								<th>Date updated</th>
          								<th>Number of products</th>
           								<th>Total price</th>
            								<th sec:authorize="hasAuthority('CUSTOMER')"></th>
@@ -87,6 +88,7 @@
 										<td><span th:text="${order.paymentStatus}"></span></td>
 										<td><span th:text="${order.deliveryStatus}"></span></td>
 										<td><span th:text="${order.dateCreated}"></span></td>
+										<td><span th:text="${order.dateUpdated}"></span></td>
 										<td><span th:text="${order.numberOfProducts}"></span></td>
 										<td><span th:text="${order.totalOrderPrice}"></span></td>
 										<td sec:authorize="hasAuthority('CUSTOMER')"><a th:href="@{/order/personal-{id}(id=${order.id})}">details</a></td>

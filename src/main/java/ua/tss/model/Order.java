@@ -49,10 +49,9 @@ public class Order implements Serializable {
 	@Column(name = "date_created"/* , nullable = false, updatable = false */)
     private LocalDate dateCreated;
     
-    @Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_updated"/* , nullable = false */)
     @LastModifiedDate
-    private Date dateUpdated;
+	@Column(name = "date_updated"/* , nullable = false */)
+    private LocalDate dateUpdated;
 	
     @OneToMany(mappedBy = "pk.order")
     private List<OrderProduct> orderProducts = new ArrayList<>();
@@ -73,7 +72,7 @@ public class Order implements Serializable {
 	
     
     @OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "deliveryDetails_id", referencedColumnName = "id")
+	@JoinColumn(name = "deliveryDetails_deliveryDetailsId", referencedColumnName = "deliveryDetailsId")
 	private DeliveryDetails deliveryDetails;
   
     
@@ -117,11 +116,11 @@ public class Order implements Serializable {
 		this.dateCreated = localDate;
 	}
 
-	public Date getDateUpdated() {
+	public LocalDate getDateUpdated() {
 		return dateUpdated;
 	}
 
-	public void setDateUpdated(Date dateUpdated) {
+	public void setDateUpdated(LocalDate dateUpdated) {
 		this.dateUpdated = dateUpdated;
 	}
 

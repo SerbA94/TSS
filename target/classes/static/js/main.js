@@ -1,4 +1,9 @@
+submitOrderForms = function(){
+    document.getElementById("deliveryDetails").submit();
+    document.getElementById("products").submit();
+    document.getElementById("orderBody").submit();
 
+}
 
 $(document).ready(function(){
   $("#modalSignIn").click(function(){

@@ -94,17 +94,63 @@ public class OrderController {
 	public String update(@PathVariable("id") long id,Model model) {
 		Order order = orderRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + id));
+		
 		model.addAttribute("order", order);
+		model.addAttribute("deliveryDetails", order.getDeliveryDetails());
+		model.addAttribute("orderProducts", order.getOrderProducts());
 		return "order-update";
 	}
 	
 	@PostMapping("/update")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
-	public String updateOrder(Order order, BindingResult result, Model model) {
+	public String updateOrder(Order order,BindingResult result, Model model) {
 		if (result.hasErrors()) {return "order-update";}
-		orderRepository.save(order);
-		return "order-update";
+
+		Order orderFromDB = orderRepository.findById(order.getId())
+				.orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + order.getId()));
+		
+		orderFromDB.setDeliveryStatus(order.getDeliveryStatus());
+		orderFromDB.setPaymentStatus(order.getPaymentStatus());
+	
+		orderService.update(orderFromDB);
+		
+		return "redirect:/order/update-"+order.getId();
 	}
+	
+	@PostMapping("/update-deliveryDetails")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
+	public String updateDeliveryDetails(DeliveryDetails deliveryDetails) {
+		deliveryDetailsService.update(deliveryDetails);
+		orderService.update(deliveryDetails.getOrder());
+		return "redirect:/order/update-"+deliveryDetails.getOrder().getId();
+
+	}
+	@PostMapping("/update-products")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
+	public String updateProducts(Model model, 
+			@RequestParam("orderUPId") Long orderUPId, 
+			@RequestParam("nameArray") String[] nameArray,
+			@RequestParam("quantityArray") Integer[] quantityArray) {
+		
+		if (nameArray.length != quantityArray.length) {return "error";}
+		Order order = orderRepository.findById(orderUPId)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + orderUPId));
+		List<OrderProductDto> dtos = new ArrayList<OrderProductDto>();
+		for (int i = 0; i < nameArray.length; i++) {
+			dtos.add(new OrderProductDto(productRepository.findByName(nameArray[i]), quantityArray[i]));
+		}	
+		List<OrderProduct> orderProducts = new ArrayList<>();
+		for (OrderProductDto dto : dtos) {
+			Product product = productRepository.findById(dto.getProduct().getId())
+					.orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + dto.getProduct().getId()));
+			orderProducts.add(orderProductService.create(new OrderProduct(order, product, dto.getProductQuantity())));
+		}
+		order.setOrderProducts(orderProducts);
+		orderService.update(order);
+		return "redirect:/order/update-"+order.getId();
+	}
+	
+	
 	
 	@GetMapping("/delete-{id}")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")

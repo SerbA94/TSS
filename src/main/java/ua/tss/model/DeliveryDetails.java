@@ -15,7 +15,7 @@ public class DeliveryDetails implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long deliveryDetailsId;
 	private String firstName;
 	private String lastName;
 	private String middleName;
@@ -47,12 +47,14 @@ public class DeliveryDetails implements Serializable {
 		this.postNumber = order.getUser().getPostNumber();
 	}
 
-	public Long getId() {
-		return id;
+	
+
+	public Long getDeliveryDetailsId() {
+		return deliveryDetailsId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setDeliveryDetailsId(Long deliveryDetailsId) {
+		this.deliveryDetailsId = deliveryDetailsId;
 	}
 
 	public String getFirstName() {
