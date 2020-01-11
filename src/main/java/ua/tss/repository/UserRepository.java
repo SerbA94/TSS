@@ -8,8 +8,7 @@ import ua.tss.model.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-    
-    //List<User> findByUsername(String name);
+
     User findByUsername(String username);
-    
+
 }

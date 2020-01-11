@@ -1,6 +1,8 @@
 package ua.tss.service;
 
 import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.tss.model.DeliveryDetails;
 import ua.tss.repository.DeliveryDetailsRepository;
@@ -8,12 +10,9 @@ import ua.tss.repository.DeliveryDetailsRepository;
 @Service
 @Transactional
 public class DeliveryDetailsService {
-	
-	private DeliveryDetailsRepository deliveryDetailsRepository;
 
-    public DeliveryDetailsService(DeliveryDetailsRepository deliveryDetailsRepository) {
-        this.deliveryDetailsRepository = deliveryDetailsRepository;
-    }
+    @Autowired
+	private DeliveryDetailsRepository deliveryDetailsRepository;
 
     public DeliveryDetails create(DeliveryDetails deliveryDetails) {
         return this.deliveryDetailsRepository.save(deliveryDetails);

@@ -25,35 +25,30 @@ import ua.tss.model.User;
 import ua.tss.model.dto.OrderProductDto;
 import ua.tss.model.enums.DeliveryStatus;
 import ua.tss.model.enums.PaymentStatus;
-import ua.tss.repository.OrderRepository;
-import ua.tss.repository.ProductRepository;
-import ua.tss.repository.UserRepository;
 import ua.tss.service.DeliveryDetailsService;
 import ua.tss.service.OrderProductService;
 import ua.tss.service.OrderService;
+import ua.tss.service.ProductService;
+import ua.tss.service.UserService;
 
 @Controller
 @RequestMapping("order")
 public class OrderController {
-	
+
 	@Autowired
 	private DeliveryDetailsService deliveryDetailsService;
 
 	@Autowired
 	private OrderProductService orderProductService;
-	
+
+	@Autowired
+    private ProductService productService;
+
 	@Autowired
 	private OrderService orderService;
 
 	@Autowired
-	private ProductRepository productRepository;
-	
-	
-	@Autowired
-	private OrderRepository orderRepository;
-
-	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 
 	@PostMapping("/create")
 	@PreAuthorize("hasAuthority('CUSTOMER')")
@@ -64,59 +59,59 @@ public class OrderController {
 
 		List<OrderProductDto> opds = new ArrayList<OrderProductDto>();
 		for (int i = 0; i < nameArray.length; i++) {
-			opds.add(new OrderProductDto(productRepository.findByName(nameArray[i]), quantityArray[i]));
+			opds.add(new OrderProductDto(productService.findByName(nameArray[i]), quantityArray[i]));
 		}
-		
+
 		Order order = orderService.create(new Order());
 		List<OrderProduct> orderProducts = new ArrayList<>();
 		for (OrderProductDto dto : opds) {
-			Product product = productRepository.findById(dto.getProduct().getId())
+			Product product = productService.findById(dto.getProduct().getId())
 					.orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + dto.getProduct().getId()));
 			orderProducts.add(orderProductService.create(new OrderProduct(order, product, dto.getProductQuantity())));
 		}
 		order.setOrderProducts(orderProducts);
-		
+
 		if (getCurrentUser()!=null) {
 			order.setUser(getCurrentUser());
 			order.setDeliveryDetails(deliveryDetailsService.create(new DeliveryDetails(order)));
 		}
-		
+
 		order.getDeliveryStatus().add(DeliveryStatus.HANDLING);
 		order.getPaymentStatus().add(PaymentStatus.NOT_PAID);
-		
+
 		orderService.update(order);
 
 		return "redirect:/product/products";
 	}
-	
+
 	@GetMapping("/update-{id}")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String update(@PathVariable("id") long id,Model model) {
-		Order order = orderRepository.findById(id)
+		Order order = orderService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + id));
-		
+
 		model.addAttribute("order", order);
 		model.addAttribute("deliveryDetails", order.getDeliveryDetails());
 		model.addAttribute("orderProducts", order.getOrderProducts());
 		return "order-update";
 	}
-	
+
 	@PostMapping("/update")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String updateOrder(Order order,BindingResult result, Model model) {
 		if (result.hasErrors()) {return "order-update";}
 
-		Order orderFromDB = orderRepository.findById(order.getId())
+		Order orderFromDB = orderService.findById(order.getId())
 				.orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + order.getId()));
-		
+
 		orderFromDB.setDeliveryStatus(order.getDeliveryStatus());
 		orderFromDB.setPaymentStatus(order.getPaymentStatus());
-	
+
 		orderService.update(orderFromDB);
-		
+
 		return "redirect:/order/update-"+order.getId();
 	}
-	
+
 	@PostMapping("/update-deliveryDetails")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String updateDeliveryDetails(DeliveryDetails deliveryDetails) {
@@ -127,21 +122,21 @@ public class OrderController {
 	}
 	@PostMapping("/update-products")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
-	public String updateProducts(Model model, 
-			@RequestParam("orderUPId") Long orderUPId, 
+	public String updateProducts(Model model,
+			@RequestParam("orderUPId") Long orderUPId,
 			@RequestParam("nameArray") String[] nameArray,
 			@RequestParam("quantityArray") Integer[] quantityArray) {
-		
+
 		if (nameArray.length != quantityArray.length) {return "error";}
-		Order order = orderRepository.findById(orderUPId)
+		Order order = orderService.findById(orderUPId)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + orderUPId));
 		List<OrderProductDto> dtos = new ArrayList<OrderProductDto>();
 		for (int i = 0; i < nameArray.length; i++) {
-			dtos.add(new OrderProductDto(productRepository.findByName(nameArray[i]), quantityArray[i]));
-		}	
+			dtos.add(new OrderProductDto(productService.findByName(nameArray[i]), quantityArray[i]));
+		}
 		List<OrderProduct> orderProducts = new ArrayList<>();
 		for (OrderProductDto dto : dtos) {
-			Product product = productRepository.findById(dto.getProduct().getId())
+			Product product = productService.findById(dto.getProduct().getId())
 					.orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + dto.getProduct().getId()));
 			orderProducts.add(orderProductService.create(new OrderProduct(order, product, dto.getProductQuantity())));
 		}
@@ -149,28 +144,28 @@ public class OrderController {
 		orderService.update(order);
 		return "redirect:/order/update-"+order.getId();
 	}
-	
-	
-	
+
+
+
 	@GetMapping("/delete-{id}")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String delete(@PathVariable("id") long id, Model model) {
-		Order order = orderRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + id));
-		orderRepository.delete(order);
+		Order order = orderService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + id));
+		orderService.delete(order);
 		return "redirect:/order/list";
 	}
-	
+
 	@GetMapping("/list")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String list(Model model) {
-		model.addAttribute("orders", orderRepository.findAll());
+		model.addAttribute("orders", orderService.getAllOrders());
 		return "order-list";
 	}
 
 	@GetMapping("/list-user-{id}")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String listByUser(@PathVariable("id") long id, Model model) {
-		User user = userRepository.findById(id)
+		User user = userService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 		model.addAttribute("orders", user.getOrders());
 		return "order-list";
@@ -185,12 +180,12 @@ public class OrderController {
 		}
 		return "error";
 	}
-	
+
 	@GetMapping("/personal-{id}")
 	@PreAuthorize("hasAuthority('CUSTOMER')")
 	public String personalOrder(@PathVariable("id") long id,Model model) {
 		if (getCurrentUser()!=null) {
-			Order order = orderRepository.findById(id)
+			Order order = orderService.findById(id)
 					.orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + id));
 			if(getCurrentUser().getOrders().contains(order)) {
 				model.addAttribute("order", order);
@@ -199,11 +194,11 @@ public class OrderController {
 		}
 		return "error";
 	}
-	
+
 	@GetMapping("/{id}")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String getOrder(@PathVariable("id") long id,Model model) {
-		Order order = orderRepository.findById(id)
+		Order order = orderService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + id));
 		model.addAttribute("order", order);
 		return "order";
@@ -213,16 +208,15 @@ public class OrderController {
 		return SecurityContextHolder.getContext().getAuthentication();
 	}
 
-	
 	private User getCurrentUser() {
 		Object principal = getCurrentAuthentication().getPrincipal();
 		if (principal instanceof User) {
 			Long id = ((User) getCurrentAuthentication().getPrincipal()).getId();
-			return userRepository.findById(id)
+			return userService.findById(id)
 					.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 			}
 		return null;
 	  }
-	 
+
 
 }

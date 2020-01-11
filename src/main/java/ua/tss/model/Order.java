@@ -3,7 +3,6 @@ package ua.tss.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,8 +23,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -38,28 +35,28 @@ import ua.tss.model.enums.PaymentStatus;
 @Entity
 @Table(name = "orders")
 public class Order implements Serializable {
-	
+
 	private static final long serialVersionUID = -8538383382391252333L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	    
+
     @CreatedDate
 	@Column(name = "date_created"/* , nullable = false, updatable = false */)
     private LocalDate dateCreated;
-    
+
     @LastModifiedDate
 	@Column(name = "date_updated"/* , nullable = false */)
     private LocalDate dateUpdated;
-	
+
     @OneToMany(mappedBy = "pk.order")
     private List<OrderProduct> orderProducts = new ArrayList<>();
-    
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
-    
+
 	@ElementCollection(targetClass = DeliveryStatus.class, fetch = FetchType.EAGER)
 	@CollectionTable(name = "order_deliveryStatus", joinColumns = @JoinColumn(name = "order_id"))
 	@Enumerated(EnumType.STRING)
@@ -69,13 +66,13 @@ public class Order implements Serializable {
 	@CollectionTable(name = "order_paymentStatus", joinColumns = @JoinColumn(name = "order_id"))
 	@Enumerated(EnumType.STRING)
 	private Set<PaymentStatus> paymentStatus = new LinkedHashSet<PaymentStatus>();
-	
-    
+
+
     @OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "deliveryDetails_deliveryDetailsId", referencedColumnName = "deliveryDetailsId")
 	private DeliveryDetails deliveryDetails;
-  
-    
+
+
     @Transient
     public Double getTotalOrderPrice() {
         double sum = 0D;
@@ -86,7 +83,7 @@ public class Order implements Serializable {
 
         return sum;
     }
-    
+
     @Transient
     public int getNumberOfProducts() {
         return this.orderProducts.size();
@@ -155,10 +152,10 @@ public class Order implements Serializable {
 	public void setDeliveryDetails(DeliveryDetails deliveryDetails) {
 		this.deliveryDetails = deliveryDetails;
 	}
-	
-	
 
-	
-	
+
+
+
+
 
 }

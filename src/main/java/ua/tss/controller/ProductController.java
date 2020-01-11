@@ -19,44 +19,36 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.tss.model.Product;
-import ua.tss.repository.ImageRepository;
-import ua.tss.repository.ProductRepository;
 import ua.tss.service.ImageService;
+import ua.tss.service.ProductService;
 
 
 @Controller
 @RequestMapping("product")
 public class ProductController {
-	
-	private final ProductRepository productRepository;
-	
-	@Autowired
-	public ProductController(ProductRepository productRepository) {
-		this.productRepository = productRepository;
-	}
-	
-	@Autowired
-	private ImageRepository imageRepository;	
-	
+
 	@Autowired
     private ImageService imageService;
 
-	
+	@Autowired
+    private ProductService productService;
+
+
 	@GetMapping("/list")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String list(Model model) {
-		model.addAttribute("products", productRepository.findAll());
+		model.addAttribute("products", productService.findAll());
 		model.addAttribute("product", new Product());
 		return "product-list";
 	}
-	
+
 	/* test **** needs update */
 	/*#################################################################*/
 	@GetMapping("/products")
 	@PreAuthorize("hasAuthority('CUSTOMER')")
 	public String products(Model model) {
 		List<Product> products = new ArrayList<Product>();
-		for (Product product : productRepository.findAll()) {
+		for (Product product : productService.findAll()) {
 			if(product.getStock()!=null&&product.getStock()>0) {
 				products.add(product);
 			}
@@ -64,34 +56,34 @@ public class ProductController {
 		model.addAttribute("products", products);
 		return "products";
 	}
-	
-	
+
+
 	/*#################################################################*/
 
-	
+
 	@GetMapping("/update/{id}")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String update(@PathVariable("id") long id,Model model) {
-		Product product = productRepository.findById(id)
+		Product product = productService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
 		model.addAttribute("product", product);
 		return "product-update";
 	}
-	
+
 	@PostMapping("/update/{id}")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String update(Product product,BindingResult result,Model model,@RequestParam("files") MultipartFile[] files) {
 		if (result.hasErrors()) {
-			model.addAttribute("products", productRepository.findAll());
+			model.addAttribute("products", productService.findAll());
 			return "product-list";
 		}
-		if (productRepository.findByName(product.getName()) == null) {
+		if (productService.findByName(product.getName()) == null) {
 			FieldError existError = new FieldError("product", "name", "Product is not Exists!");
 			result.addError(existError);
-			model.addAttribute("products", productRepository.findAll());
+			model.addAttribute("products", productService.findAll());
 			return "product-list";
 		}
-		productRepository.save(product);
+		productService.save(product);
 	    Arrays.asList(files).stream().forEach(file -> {
 	    	if(!file.isEmpty()) {
 				try {
@@ -103,21 +95,21 @@ public class ProductController {
 		});
 		return "redirect:/product/list";
 	}
-	
+
 	@PostMapping("/create")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String create(Product product,BindingResult result,Model model,@RequestParam("files") MultipartFile[] files) {
 		if (result.hasErrors()) {
-			model.addAttribute("products", productRepository.findAll());
+			model.addAttribute("products", productService.findAll());
 			return "product-list";
 		}
-		if (productRepository.findByName(product.getName()) != null) {
+		if (productService.findByName(product.getName()) != null) {
 			FieldError existError = new FieldError("product", "name", "Product Exists!");
 			result.addError(existError);
-			model.addAttribute("products", productRepository.findAll());
+			model.addAttribute("products", productService.findAll());
 			return "product-list";
 		}
-		productRepository.save(product);
+		productService.save(product);
 		if(files!=null) {
 	         Arrays.asList(files).stream().forEach(file -> {
 				try {
@@ -129,16 +121,16 @@ public class ProductController {
 		}
 		return "redirect:/product/list";
 	}
-	
-	@GetMapping("/delete/{id}")	
+
+	@GetMapping("/delete/{id}")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
 	public String delete(@PathVariable("id") Long id, Model model) {
-		Product product = productRepository.findById(id)
+		Product product = productService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
 		if(!product.getImages().isEmpty()&&product.getImages()!=null) {
-	        product.getImages().stream().forEach(image -> imageRepository.delete(image));
+	        product.getImages().stream().forEach(image -> imageService.delete(image));
 		}
-		productRepository.delete(product);
+		productService.delete(product);
 		return "redirect:/product/list";
-	}	
+	}
 }
