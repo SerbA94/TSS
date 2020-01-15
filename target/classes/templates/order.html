@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<head>
-		<meta charset="utf-8" />   	
+		<meta charset="utf-8" />
        	<meta name="viewport" content="width=device-width, initial-scale=1" />
-       	
+
        	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
  	   	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-       	
+
        	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 
 	<title>Order details</title>
@@ -26,19 +26,19 @@
   			</button>
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav mr-4">
-				
-					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 						<a class="nav-link " href="/user/list">User list</a>
 					</li>
-					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 						<a class="nav-link " href="/image/list">Image list</a>
 					</li>
-					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 						<a class="nav-link " href="/product/list">Product list</a>
 					</li>
 					<li sec:authorize="!isAuthenticated()" class="nav-item">
 						<a class="nav-link" href="/login">SignIn</a>
-					</li>		
+					</li>
 					<li sec:authorize="isAuthenticated()" class="nav-item" >
 						<a class="nav-link" href="/logout">SignOut</a>
 					</li>
@@ -55,9 +55,9 @@
 						<h3 class="box-title brand-style">Order</h3>
 					</div>
 					<div class="box-body">
-					
-					
-							
+
+
+
 								<div class="box col-md-12 fd-row">
 									<div class="box-body box">
 										<div>
@@ -72,7 +72,7 @@
 											<label><b>Date updated: </b><br></label>
 											<span th:text="${order.dateUpdated}"></span>
 										</div>
-										
+
 										<div class="box">
 											<label><b>Delivery status: </b><br></label>
 											<span th:text="${order.deliveryStatus}"></span>
@@ -81,8 +81,8 @@
 											<label><b>Payment status: </b><br></label>
 											<span th:text="${order.paymentStatus}"></span>
 										</div>
-										
-																			
+
+
 									</div>
 									<div class="box-body box">
 										<div>
@@ -97,10 +97,7 @@
 											<label><b>Middle name: </b><br></label>
 											<span th:text="${order.deliveryDetails.middleName}"></span>
 										</div>
-										<div>
-											<label><b>Phone number: </b><br></label>
-											<span th:text="${order.deliveryDetails.phoneNumber}"></span>
-										</div>
+
 										<div>
 											<label><b>Region: </b><br></label>
 											<span th:text="${order.deliveryDetails.region}"></span>
@@ -122,44 +119,44 @@
 								<div class="box col-md-12 fd-column">
 									<div class="box-header" >
 										<h5 class="box-title brand-style">Products</h5>
-									</div>		
+									</div>
 									<table class="table">
     									<thead class="thead-light">
-    							
+
 		      								<tr>
 		        								<th>IMAGE</th>
 		        								<th>Product name</th>
 		        								<th>Quantity</th>
 		        								<th>Price</th>
-		          								<th>Total price</th>								
+		          								<th>Total price</th>
 		     								</tr>
-     								
+
     									</thead>
 		    							<tbody>
-		    								<tr th:if="${order.orderProducts.empty}"><td colspan="2">No Orders Available</td></tr>
-											<tr th:each="orderProduct : ${order.orderProducts}">
-												<td><img th:src="@{/image/{id}(id=${orderProduct.product.images[0].id})}" class="img-table"></td>
-												<td><span th:text="${orderProduct.product.name}"></span></td>
-												<td><span th:text="${orderProduct.quantity}"></span></td>
-												<td><span th:text="${orderProduct.product.price}"></span></td>
-												<td><span th:text="${orderProduct.totalPrice}"></span></td>
+		    								<tr th:if="${order.orderItems.empty}"><td colspan="2">No Orders Available</td></tr>
+											<tr th:each="orderItem : ${order.orderItems}">
+												<td><img th:src="@{/image/{id}(id=${orderItem.product.images[0].id})}" class="img-table"></td>
+												<td><span th:text="${orderItem.product.name}"></span></td>
+												<td><span th:text="${orderItem.productQuantity}"></span></td>
+												<td><span th:text="${orderItem.product.price}"></span></td>
+												<td><span th:text="${orderItem.orderItemPrice}"></span></td>
 											</tr>
 								    	</tbody>
 								  	</table>
 								  	<div class="box brand-style jc-right ">
-								  		<b>Total order price: 
+								  		<b>Total order price:
 											<span th:text="${order.totalOrderPrice}"></span>
 										</b>
 								  	</div>
-								  	
-								</div>					
-						
-						
+
+								</div>
+
+
 					</div>
 				</div>
 			</div>
 		</div>
-	
+
 		<!-- Footer -->
 	<footer class="footer stiky-bottom">
         <div class="container">

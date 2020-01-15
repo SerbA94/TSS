@@ -24,7 +24,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav mr-4">
-	
+
 					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 						<a class="nav-link " href="/user/list">User list</a>
 					</li>
@@ -43,7 +43,7 @@
 					<li sec:authorize="!isAuthenticated()" class="nav-item">
 						<a class="nav-link " href="/user/signup">SignUp</a>
 					</li>
-						
+
 				</ul>
 			</div>
 		</nav>
@@ -53,34 +53,20 @@
 				<div class="box shadow-lg">
 					<div class="box-header"><h3 class="box-title brand-style">Customer profile</h3></div>
 					<div class="box-body">
-					
-						
+
+
 						<form sec:authorize="hasAuthority('ADMIN')" th:action="@{/user/update/{id}(id=${user.id})}" th:object="${user}" method="post">
-						
+
 							<div class="box fd-row">
 								<div class="box col-md-6">
 									<div class="box-body">
-	
+
 										<div>
-											<label for="email">Email</label> 
+											<label for="email">Email</label>
 											<input type="email" th:field="*{email}" placeholder="Email">
 											<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 										</div>
-										<div>
-											<label for="firstName">First Name</label>
-											<input type="text" th:field="*{firstName}" placeholder="First Name">
-											<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
-										</div>
-										<div>
-											<label for="lastName">Last Name</label>
-											<input type="text" th:field="*{lastName}" placeholder="Last Name">
-											<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
-										</div>
-										<div>
-											<label for="middleName">Middle Name</label>
-											<input type="text" th:field="*{middleName}" placeholder="Middle Name">
-											<span th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}"></span>
-										</div>
+
 										<div>
 											<label for="phoneNumber">Phone Number</label>
 											<input type="text" th:field="*{phoneNumber}" placeholder="Phone Number">
@@ -93,38 +79,19 @@
 												<option value="ADMIN">ADMIN</option>
 											</select>
 										</div>
+
+										<div>
+											<input type="radio" th:field="*{active}" value="true"> true
+											<input type="radio" th:field="*{active}" value="false"> false
+										</div>
 										<input type="hidden" th:field="*{password}" value="user.password">
 										<input type="hidden" th:field="*{username}" value="user.username">
-										<input type="hidden" th:field="*{active}" value="user.active">
 										<input type="hidden" th:field="*{id}" value="user.id">
-	
+
 									</div>
 								</div>
-								<div class="box col-md-6">
-									<div class="box-body">
-										<div>
-											<label for="region">Region</label>
-											<input type="text" th:field="*{region}" placeholder="Region">
-											<span th:if="${#fields.hasErrors('region')}" th:errors="*{region}"></span>
-										</div>
-										<div>
-											<label for="district">District</label>
-											<input type="text" th:field="*{district}" placeholder="District">
-											<span th:if="${#fields.hasErrors('district')}" th:errors="*{district}"></span>
-										</div>
-										<div>
-											<label for="city">City</label>
-											<input type="text" th:field="*{city}" placeholder="City">
-											<span th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
-										</div>
-										<div>
-											<label for="postNumber">Post Number</label>
-											<input type="number" th:field="*{postNumber}" placeholder="Post Number">
-											<span th:if="${#fields.hasErrors('postNumber')}" th:errors="*{postNumber}"></span>
-										</div>
-									</div>
-								</div>
-	
+
+
 							</div>
 							<div class="container fd-column">
 								<button type="submit" class="btn">
@@ -134,31 +101,17 @@
 						</form>
 
 						<form sec:authorize="hasAuthority('CUSTOMER')" th:action="@{/user/update}" th:object="${user}" method="post">
-						
+
 							<div class="box fd-row">
 								<div class="box col-md-6">
 									<div class="box-body">
-	
+
 										<div>
 											<label for="email">Email</label>
 											<input type="email" th:field="*{email}" placeholder="Email">
 											<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 										</div>
-										<div>
-											<label for="firstName">First Name</label>
-											<input type="text" th:field="*{firstName}" placeholder="First Name">
-											<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
-										</div>
-										<div>
-											<label for="lastName">Last Name</label>
-											<input type="text" th:field="*{lastName}" placeholder="Last Name">
-											<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
-										</div>
-										<div>
-											<label for="middleName">Middle Name</label>
-											<input type="text" th:field="*{middleName}" placeholder="Middle Name">
-											<span th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}"></span>
-										</div>
+
 										<div>
 											<label for="phoneNumber">Phone Number</label>
 											<input type="text" th:field="*{phoneNumber}" placeholder="Phone Number">
@@ -168,33 +121,10 @@
 										<input type="hidden" th:field="*{username}" value="user.username">
 										<input type="hidden" th:field="*{active}" value="user.active">
 										<input type="hidden" th:field="*{id}" value="user.id">
-	
+
 									</div>
 								</div>
-								<div class="box col-md-6">
-									<div class="box-body">
-										<div>
-											<label for="region">Region</label>
-											<input type="text" th:field="*{region}" placeholder="Region">
-											<span th:if="${#fields.hasErrors('region')}" th:errors="*{region}"></span>
-										</div>
-										<div>
-											<label for="district">District</label>
-											<input type="text" th:field="*{district}" placeholder="District">
-											<span th:if="${#fields.hasErrors('district')}" th:errors="*{district}"></span>
-										</div>
-										<div>
-											<label for="city">City</label>
-											<input type="text" th:field="*{city}" placeholder="City">
-											<span th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
-										</div>
-										<div>
-											<label for="postNumber">Post Number</label>
-											<input type="number" th:field="*{postNumber}" placeholder="Post Number">
-											<span th:if="${#fields.hasErrors('postNumber')}" th:errors="*{postNumber}"></span>
-										</div>
-									</div>
-								</div>
+
 							</div>
 							<div class="container fd-column">
 								<button type="submit" class="btn"><h4>Update my info</h4></button>
@@ -204,7 +134,7 @@
 				</div>
 			</div>
 		</div>
-	
+
 		<!-- Footer -->
 		<footer class="footer stiky-bottom">
 			<div class="container">

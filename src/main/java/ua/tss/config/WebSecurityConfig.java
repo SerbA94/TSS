@@ -26,10 +26,10 @@ import ua.tss.service.UserService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	  		
+
 	@Autowired
 	private UserService userService;
-	  
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authProvider());
@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
         	.authorizeRequests()
-            	.antMatchers("/", "/mainPage","/user/signup").permitAll() 
+            	.antMatchers("/", "/mainPage","/user/signup","/main").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .formLogin()
@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
-    
+
     @Override
     public void configure(final WebSecurity web) throws Exception {
 
@@ -60,9 +60,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 	.antMatchers("/css/**")
                 	.antMatchers("/js/**")
                 //.antMatchers("/webjars/**")
-        ;   
+        ;
     }
-    
+
     @Bean
 	public DaoAuthenticationProvider authProvider() {
 	    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -70,16 +70,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    authProvider.setPasswordEncoder(passwordEncoder());
 	    return authProvider;
 	}
-    
+
     @Bean
 	public AuthenticationTrustResolver getAuthenticationTrustResolver() {
 		return new AuthenticationTrustResolverImpl();
 	}
-    
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
 
 }

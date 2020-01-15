@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.tss.model.Order;
+import ua.tss.model.User;
 import ua.tss.repository.OrderRepository;
 
 @Service
@@ -20,6 +21,10 @@ public class OrderService {
 
     public Iterable<Order> getAllOrders() {
         return this.orderRepository.findAll();
+    }
+
+    public Iterable<Order> getAllUserOrders(User user) {
+        return this.orderRepository.getAllUserOrders(user.getId());
     }
 
     public Order create(Order order) {

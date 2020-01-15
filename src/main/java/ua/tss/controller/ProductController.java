@@ -25,7 +25,7 @@ import ua.tss.service.ProductService;
 
 @Controller
 @RequestMapping("product")
-public class ProductController {
+public class ProductController extends SuperController{
 
 	@Autowired
     private ImageService imageService;

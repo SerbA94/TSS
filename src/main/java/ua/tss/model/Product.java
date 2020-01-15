@@ -11,23 +11,21 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Product implements Serializable{
-	
+
 	private static final long serialVersionUID = -3025862373715067087L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String name;
 	private String description;
 	private Integer stock;
 	private Integer price;
-	
+
 	@OneToMany(mappedBy="product")
     private Set<Image> images;
-	
-	
-	
+
 	public Set<Image> getImages() {
 		return images;
 	}
@@ -64,7 +62,5 @@ public class Product implements Serializable{
 	public void setPrice(Integer price) {
 		this.price = price;
 	}
-	
-
 
 }

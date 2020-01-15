@@ -1,5 +1,7 @@
 package ua.tss.service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +22,9 @@ public class DeliveryDetailsService {
 
     public void update(DeliveryDetails deliveryDetails) {
         this.deliveryDetailsRepository.save(deliveryDetails);
+    }
+
+    public Optional<DeliveryDetails> getLastDeliveryDetails() {
+        return this.deliveryDetailsRepository.getLastDeliveryDetails();
     }
 }

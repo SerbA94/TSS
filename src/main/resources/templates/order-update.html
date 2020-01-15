@@ -61,8 +61,8 @@
 								id="orderBody" method="post" class="box-body box">
 
 								<div>
-									<label><b>Order id: </b><br></label> 
-									<span th:text="${order.id}"></span> 
+									<label><b>Order id: </b><br></label>
+									<span th:text="${order.id}"></span>
 									<input type="hidden" th:field="*{id}" value="order.id">
 								</div>
 								<div>
@@ -83,7 +83,7 @@
 									</select>
 								</div>
 								<div class="box">
-									<b>Payment status: </b><br> 
+									<b>Payment status: </b><br>
 									<select th:field="*{paymentStatus}">
 										<option th:value="${order.paymentStatus}" selected>[[${order.paymentStatus[0]}]]</option>
 										<option th:value="NOT_PAID">NOT PAID</option>
@@ -96,14 +96,10 @@
 							<form th:action="@{/order/update-deliveryDetails}" th:object="${deliveryDetails}"
 							id="deliveryDetails" method="post" class="box-body box">
 
-								<input type="hidden" th:field="*{deliveryDetailsId}" value="deliveryDetails.deliveryDetailsId">
-								<input type="hidden" th:field="*{order}" value="deliveryDetails.order">
-								
-								<div>
-									<label><b>Phone number: </b><br></label>
-									<span th:text="${deliveryDetails.phoneNumber}"></span>
-									<input type="hidden" th:field="*{phoneNumber}" value="deliveryDetails.phoneNumber">
-								</div>
+								<input type="hidden" th:field="*{id}" value="deliveryDetails.id">
+								<input type="hidden" name="orderId" th:value="${order.id}">
+
+
 								<div>
 									<label><b>First name: </b><br></label>
 									<input type="text" th:field="*{firstName}" placeholder="First name">
@@ -132,14 +128,14 @@
 									<label><b>Post number: </b><br></label>
 									<input type="text" th:field="*{postNumber}" placeholder="Post number">
 								</div>
-								
+
 							</form>
-							
+
 						</div>
 					</div>
 					<!-- ####################################### -->
 					<form th:action="@{/order/update-products}" id="products" method="post" class="box">
-					
+
 						<input type="hidden" name="orderUPId" th:value="${order.id}">
 						<div class="box-header"><h5 class="box-title brand-style">Products</h5></div>
 						<table class="table">
@@ -153,16 +149,16 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:if="${orderProducts.empty}"><td colspan="2">No Products Available</td></tr>
-								<tr th:each="orderProduct: ${orderProducts}">
-									<td><img th:src="@{/image/{id}(id=${orderProduct.product.images[0].id})}"class="img-table"></td>
+								<tr th:if="${orderItems.empty}"><td colspan="2">No Products Available</td></tr>
+								<tr th:each="orderItem: ${orderItems}">
+									<td><img th:src="@{/image/{id}(id=${orderItem.product.images[0].id})}"class="img-table"></td>
 									<td>
-										<span th:text="${orderProduct.product.name}"></span>
-										<input type="hidden" name="nameArray" th:value="${orderProduct.product.name}">
+										<span th:text="${orderItem.product.name}"></span>
+										<input type="hidden" name="nameArray" th:value="${orderItem.product.name}">
 									</td>
-									<td><input class="product-quantity-input" type="number" name="quantityArray" th:value="${orderProduct.quantity}"></td>
-									<td><span th:text="${orderProduct.product.price}"></span></td>
-									<td><span th:text="${orderProduct.totalPrice}"></span></td>
+									<td><input class="product-quantity-input" type="number" name="quantityArray" th:value="${orderItem.productQuantity}"></td>
+									<td><span th:text="${orderItem.product.price}"></span></td>
+									<td><span th:text="${orderItem.orderItemPrice}"></span></td>
 								</tr>
 							</tbody>
 						</table>

@@ -19,7 +19,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -50,52 +49,40 @@ public class Order implements Serializable {
 	@Column(name = "date_updated"/* , nullable = false */)
     private LocalDate dateUpdated;
 
-    @OneToMany(mappedBy = "pk.order")
-    private List<OrderProduct> orderProducts = new ArrayList<>();
-
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @OneToMany
+    private List<OrderItem> orderItems = new ArrayList<>();
 
 	@ElementCollection(targetClass = DeliveryStatus.class, fetch = FetchType.EAGER)
 	@CollectionTable(name = "order_deliveryStatus", joinColumns = @JoinColumn(name = "order_id"))
 	@Enumerated(EnumType.STRING)
-	private Set<DeliveryStatus> deliveryStatus = new LinkedHashSet<DeliveryStatus>();
+	private Set<DeliveryStatus> deliveryStatus = new LinkedHashSet<>();
 
 	@ElementCollection(targetClass = PaymentStatus.class, fetch = FetchType.EAGER)
 	@CollectionTable(name = "order_paymentStatus", joinColumns = @JoinColumn(name = "order_id"))
 	@Enumerated(EnumType.STRING)
-	private Set<PaymentStatus> paymentStatus = new LinkedHashSet<PaymentStatus>();
-
+	private Set<PaymentStatus> paymentStatus = new LinkedHashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "deliveryDetails_deliveryDetailsId", referencedColumnName = "deliveryDetailsId")
+	@JoinColumn(name = "deliveryDetails_id", referencedColumnName = "id")
 	private DeliveryDetails deliveryDetails;
 
-
     @Transient
-    public Double getTotalOrderPrice() {
-        double sum = 0D;
-        List<OrderProduct> orderProducts = getOrderProducts();
-        for (OrderProduct op : orderProducts) {
-            sum += op.getTotalPrice();
+    public Integer getTotalOrderPrice() {
+        int sum = 0;
+        for (OrderItem op : getOrderItems()) {
+            sum += op.getOrderItemPrice();
         }
-
         return sum;
     }
 
     @Transient
     public int getNumberOfProducts() {
-        return this.orderProducts.size();
+    	int sum = 0;
+    	for (OrderItem orderItem : this.orderItems) {
+			sum+=orderItem.getProductQuantity();
+		}
+        return sum;
     }
-
-	public List<OrderProduct> getOrderProducts() {
-		return orderProducts;
-	}
-
-	public void setOrderProducts(List<OrderProduct> orderProducts) {
-		this.orderProducts = orderProducts;
-	}
 
 	public Long getId() {
 		return id;
@@ -121,14 +108,6 @@ public class Order implements Serializable {
 		this.dateUpdated = dateUpdated;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public Set<DeliveryStatus> getDeliveryStatus() {
 		return deliveryStatus;
 	}
@@ -149,13 +128,15 @@ public class Order implements Serializable {
 		return deliveryDetails;
 	}
 
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
+	}
+
 	public void setDeliveryDetails(DeliveryDetails deliveryDetails) {
 		this.deliveryDetails = deliveryDetails;
 	}
-
-
-
-
-
-
 }

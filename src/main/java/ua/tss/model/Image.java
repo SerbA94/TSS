@@ -20,17 +20,17 @@ public class Image implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
     private String name;
 
     @Lob
     private byte[] data;
-    
+
     @ManyToOne
     @JoinColumn(name="product_id")
     private Product product;
-  
-    
+
+
 	public Image() {}
 
 
@@ -38,55 +38,44 @@ public class Image implements Serializable {
 		this.name = name;
 		this.data = data;
 	}
-	
+
 	public Image(String name, byte[] data,Product product) {
 		this.name = name;
 		this.data = data;
 		this.product = product;
 	}
-	
-
-
 
 	public Product getProduct() {
 		return product;
 	}
 
-
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-
 
 	public Long getId() {
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public String getName() {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public byte[] getData() {
 		return data;
 	}
 
-
 	public void setData(byte[] data) {
 		this.data = data;
 	}
-
 
 	public static String getType() {
 		return type;

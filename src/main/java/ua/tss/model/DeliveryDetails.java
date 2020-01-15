@@ -6,55 +6,53 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
 public class DeliveryDetails implements Serializable {
 
 	private static final long serialVersionUID = 1512685222797089839L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long deliveryDetailsId;
+	private Long id;
+
 	private String firstName;
 	private String lastName;
 	private String middleName;
-	private String phoneNumber;
 	private String region;
 	private String district;
 	private String city;
-	private Integer postNumber;
-	
-    @OneToOne(mappedBy = "deliveryDetails")
-	private Order order;
-	
-	
-	
+	private int postNumber;
+
+	@OneToOne
+	@JoinColumn(name = "user_userId", referencedColumnName = "id")
+	private User user;
+
 	public DeliveryDetails() {
 		super();
 	}
 
-	public DeliveryDetails(Order order) {
-		super();
-		this.order = order;
-		this.firstName = order.getUser().getFirstName();
-		this.lastName = order.getUser().getLastName();
-		this.middleName = order.getUser().getMiddleName();
-		this.phoneNumber = order.getUser().getPhoneNumber();
-		this.region = order.getUser().getRegion();
-		this.district = order.getUser().getDistrict();
-		this.city = order.getUser().getCity();
-		this.postNumber = order.getUser().getPostNumber();
+
+	public void copyAllDetails(DeliveryDetails dd) {
+
+		this.firstName = dd.getFirstName()!=null ? dd.getFirstName():"custom";
+		this.lastName = dd.getLastName()!=null?dd.getLastName():"custom";
+		this.middleName = dd.getMiddleName()!=null?dd.getMiddleName():"custom";
+		this.region = dd.getRegion()!=null?dd.getRegion():"custom";
+		this.district = dd.getDistrict()!=null?dd.getDistrict():"custom";
+		this.city = dd.getCity()!=null?dd.getCity():"custom";
+		this.postNumber = dd.getPostNumber();
 	}
 
-	
 
-	public Long getDeliveryDetailsId() {
-		return deliveryDetailsId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setDeliveryDetailsId(Long deliveryDetailsId) {
-		this.deliveryDetailsId = deliveryDetailsId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -81,14 +79,6 @@ public class DeliveryDetails implements Serializable {
 		this.middleName = middleName;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
 	public String getRegion() {
 		return region;
 	}
@@ -113,25 +103,21 @@ public class DeliveryDetails implements Serializable {
 		this.city = city;
 	}
 
-	public Integer getPostNumber() {
+	public int getPostNumber() {
 		return postNumber;
 	}
 
-	public void setPostNumber(Integer postNumber) {
+	public void setPostNumber(int postNumber) {
 		this.postNumber = postNumber;
 	}
 
-	public Order getOrder() {
-		return order;
+	public User getUser() {
+		return user;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setUser(User user) {
+		this.user = user;
 	}
-	
-	
-	
-	
-	
+
 
 }

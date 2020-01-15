@@ -26,7 +26,7 @@ import ua.tss.service.ProductService;
 
 @Controller
 @RequestMapping("image")
-public class ImageController {
+public class ImageController extends SuperController {
 
 	@Autowired
     private ImageService imageService;
@@ -125,7 +125,5 @@ public class ImageController {
 		imageService.delete(image);
         return "redirect:/image/list";
 	}
-
-
 
 }
