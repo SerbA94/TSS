@@ -97,6 +97,7 @@
 							id="deliveryDetails" method="post" class="box-body box">
 
 								<input type="hidden" th:field="*{id}" value="deliveryDetails.id">
+								<input type="hidden" th:field="*{user}" value="${deliveryDetails.user}">
 								<input type="hidden" name="orderId" th:value="${order.id}">
 
 

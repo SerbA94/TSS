@@ -2,21 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<head>
-	
+
 		<meta charset="utf-8" />
        	<meta name="viewport" content="width=device-width, initial-scale=1" />
-       	
+
        	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
  	   	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-		
-		
+
+
        	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
        	<script src="/js/cart.js" async ></script>
-       	 
+
 		<title>Products</title>
-		
+
 	</head>
 	<body>
 
@@ -31,27 +31,30 @@
   			</button>
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav mr-4">
-			
-					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 						<a class="nav-link " href="/user/list">User list</a>
 					</li>
-					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">			
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 						<a class="nav-link " href="/image/list">Image list</a>
 					</li>
-			
+
 					<li sec:authorize="!isAuthenticated()" class="nav-item">
 						<a class="nav-link" href="/login">SignIn</a>
-					</li>		
+					</li>
 					<li sec:authorize="isAuthenticated()" class="nav-item" >
 						<a class="nav-link" href="/logout">SignOut</a>
 					</li>
 					<li sec:authorize="!isAuthenticated()" class="nav-item">
 						<a class="nav-link " href="/user/signup">SignUp</a>
 					</li>
-					
+
 				</ul>
 			</div>
 		</nav>
+
+		<div>Cart session id: [[${cart.sessionId}]]</div>
+
 		<div class="container content-body">
 			<div class="col-md-9">
 				<div class="box shadow-lg">
@@ -62,7 +65,7 @@
 						<div class="box">
 							<div class="box-header" >
 								<h5 class="box-title brand-style">Products</h5>
-							</div>		
+							</div>
 							<table class="table">
     							<thead class="thead-light">
       								<tr>
@@ -72,7 +75,7 @@
           								<th>Product image</th>
            								<th></th>
           								<th></th>
-           								
+
      								</tr>
     							</thead>
     							<tbody>
@@ -83,55 +86,55 @@
 										<td><span th:text="${product.description}"></span></td>
 										<td><img th:src="@{/image/{id}(id=${product.images[0].id})}" class="img-table"></td>
 										<td><button type="submit" class="btn-add btn"><h5>Add to cart</h5></button></td>
-																		
+
 									</tr>
 						    	</tbody>
 						  	</table>
 						</div>
   					</div>
   				</div>
-  			</div> 
+  			</div>
   		</div>
-  		
-  		
-  		
+
+
+
   		<div class="container content-body">
 			<div class="col-md-9">
 				<div class="box shadow-lg">
 					<div class="box-header" >
 						<h3 class="box-title brand-style">Cart</h3>
 					</div>
-					
+
 
             <form th:action="@{/order/create}"  method="post" class="box cart-items">
-            	
-            	
-            
+
+
+
            	<button type="submit" class="btn">
 				<h4>Submit</h4>
 			</button>
-            
+
             </form>
             <div class="box fd-row jc-center cart-total">
                 <strong class="cart-total-title  brand-style">Total</strong>
                 <span class="cart-total-price brand-style">0</span>
             </div>
-            
-            
+
+
             <button class="btn btn-purchase" type="button">PURCHASE</button>
-            
-            
-            
-            
-            
-       
-					
-					
+
+
+
+
+
+
+
+
   				</div>
-  			</div> 
+  			</div>
   		</div>
-  
-  
+
+
   	<!-- Footer -->
 	<footer class="footer stiky-bottom">
         <div class="container">

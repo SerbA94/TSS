@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-      
-      
-      
+
+
+
     <head>
     	<title>Mama Store Main Page</title>
        	<meta charset="utf-8" />
        	<meta name="viewport" content="width=device-width, initial-scale=1" />
-       	
+
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
  	   	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
- 		
+
  		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
  		<script src="js/main.js"></script>
     </head>
-    
+
     <body>
-    
+
     <div class="top-case">
     	<h1 class="brand-logo">Mama Store</h1>
     </div>
@@ -36,7 +36,7 @@
   		</button>
 		<div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<ul class="navbar-nav mr-4">
-			
+
 				<li sec:authorize="hasAuthority('CUSTOMER')" class="nav-item">
 					<a class="nav-link " href="/user/update">[[${#httpServletRequest.remoteUser}]]</a>
 				</li>
@@ -46,7 +46,7 @@
 				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
 					<a class="nav-link " href="/#">[[${#httpServletRequest.remoteUser}]]</a>
 				</li>
-				
+
 				<li sec:authorize="hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')" class="nav-item">
 					<a class="nav-link" href="/order/list">Order list</a>
 				</li>
@@ -56,7 +56,7 @@
 				<li sec:authorize="hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')" class="nav-item">
 					<a class="nav-link " href="/product/list">Product list</a>
 				</li>
-				<li sec:authorize="hasAuthority('CUSTOMER')" class="nav-item">
+				<li class="nav-item">
 					<a class="nav-link " href="/product/products">Products</a>
 				</li>
 				<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
@@ -65,25 +65,26 @@
 				<li sec:authorize="!isAuthenticated()" class="nav-item container jc-start">
 					<!-- <a class="nav-link" href="/login">SignIn</a> -->
 					<button type="button" class="btn" data-toggle="modal" data-target="#modalSignIn">SignIn</button>
-				</li>		
+				</li>
 				<li sec:authorize="isAuthenticated()" class="nav-item" >
 					<a class="nav-link" href="/logout">SignOut</a>
 				</li>
 				<li sec:authorize="!isAuthenticated()" class="nav-item">
-					<a class="nav-link" href="/user/signup">SignUp</a>					
+					<a class="nav-link" href="/user/signup">SignUp</a>
 				</li>
 			</ul>
 		</div>
 	</nav>
-	
+
 	<div class="container">
+		<div>Cart session id: [[${cart.sessionId}]]</div>
 		<div><h1>Some text</h1></div>
 	    <div sec:authorize="isAuthenticated()">
 	    <h1>Seen if autentificated</h1>
 	    </div>
 	    <div>
 	    <h1> Some text 2 </h1>
-	   
+
 	    </div>
 	</div>
 	<!-- Modal frames -->
@@ -99,7 +100,7 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
-					
+
 						<form th:action="@{/login}" method="post" class="needs-validation" novalidate>
 							<div class="form-group">
 								<input type="text" class="form-control" id="username" placeholder="Phone number or username" name="username" required>
@@ -121,8 +122,8 @@
 </div>
 			</div>
 		</div>
-		
-	
+
+
 	<!-- Footer -->
 	<footer class="footer stiky-bottom">
         <div class="container">
@@ -134,9 +135,9 @@
 		</div>
     </footer>
 <!-- Footer -->
-		
 
-	
+
+
 
 
 </body>
