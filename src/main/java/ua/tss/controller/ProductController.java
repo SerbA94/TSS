@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import ua.tss.model.Cart;
 import ua.tss.model.Product;
+import ua.tss.service.CartService;
 import ua.tss.service.ImageService;
 import ua.tss.service.ProductService;
 
@@ -33,6 +37,9 @@ public class ProductController extends SuperController{
 	@Autowired
     private ProductService productService;
 
+	@Autowired
+	private CartService cartService;
+
 
 	@GetMapping("/list")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERVISOR')")
@@ -45,14 +52,16 @@ public class ProductController extends SuperController{
 	/* test **** needs update */
 	/*#################################################################*/
 	@GetMapping("/products")
-	@PreAuthorize("hasAuthority('CUSTOMER')")
-	public String products(Model model) {
+	public String products(Model model,HttpServletRequest request) {
+		Cart cart = cartService.findBySessionId(request.getSession(true).getId());
+
 		List<Product> products = new ArrayList<Product>();
 		for (Product product : productService.findAll()) {
 			if(product.getStock()!=null&&product.getStock()>0) {
 				products.add(product);
 			}
 		}
+		model.addAttribute("cart", cart);
 		model.addAttribute("products", products);
 		return "products";
 	}

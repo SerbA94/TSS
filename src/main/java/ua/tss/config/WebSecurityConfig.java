@@ -1,7 +1,4 @@
-
 package ua.tss.config;
-
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
         	.authorizeRequests()
-            	.antMatchers("/", "/mainPage","/user/signup","/main").permitAll()
+            	.antMatchers("/","/product/products","/image/*","/user/signup","/main").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .formLogin()
@@ -62,6 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/webjars/**")
         ;
     }
+
+
 
     @Bean
 	public DaoAuthenticationProvider authProvider() {

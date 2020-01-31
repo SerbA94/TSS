@@ -8,7 +8,7 @@ import ua.tss.service.UserService;
 
 public abstract class SuperController {
 
-	protected Authentication getCurrentAuthentication() {
+	protected  Authentication getCurrentAuthentication() {
 		return SecurityContextHolder.getContext().getAuthentication();
 	}
 
